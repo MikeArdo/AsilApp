@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AsilApp</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Accedi</string>
+    <string name="sign_up">Registrati</string>
+    <string name="empty_fields_error">Compila tutti i campi</string>
+    <string name="signup_done">Registrazione riuscita</string>
+    <string name="signup_failed">"Registrazione fallita: "</string>
+    <string name="signin_done">Accesso riuscito</string>
+    <string name="signin_failed">"Accesso fallito: "</string>
+    <string name="name">Nome</string>
+    <string name="surname">Cognome</string>
+    <string name="birthdate">Data di nascita</string>
+    <string name="saved_data">Dati salvati</string>
+    <string name="error">"Errore: "</string>
+    <string name="asylum_seeker">Richiedente asilo</string>
+    <string name="doctor">Medico</string>
+    <string name="confirm_password">Conferma password</string>
+    <string name="passwords_not_match">Le password non corrispondono</string>
+    <string name="refugee_shelter">Casa accoglienza</string>
+    <string name="license_number">Codice albo</string>
+    <string name="welcome_to_asilapp">Benvenuto su AsilApp</string>
+    <string name="welcome_message">Benvenuto %1$s %2$s, \nGrazie per esserti registrato!
+        La password per il contenitore biomedicale è: password</string>
+    <string name="error_qrcode">Errore generazione codice QR</string>
+    <string name="login_qrcode">Accedi con codice QR</string>
+    <string name="scan_from_gallery">Scannerizza dalla galleria</string>
+    <string name="scan_qr_code">Scannerizza codice QR</string>
+    <string name="error_decode_qrcode">Lettura codice QR fallita</string>
+    <string name="camera_permission">Per la scansione dei codici QR è richiesta l\'autorizzazione della fotocamera</string>
+    <string name="expense_amount">Importo spesa</string>
+    <string name="save_expense">Salva Spesa</string>
+    <string name="date_expense">Data spesa</string>
+    <string name="select_category">Seleziona categoria</string>
+    <string name="filter_by_date">Filtra per data</string>
+    <string-array name="expenses_category_empty">
+        <item/>
+        <item>Alimenti</item>
+        <item>Farmaci</item>
+        <item>Visite mediche</item>
+        <item>Altro</item>
+    </string-array>
+    <string-array name="expenses_category">
+        <item>Alimenti</item>
+        <item>Farmaci</item>
+        <item>Visite mediche</item>
+        <item>Altro</item>
+    </string-array>
+    <string name="select_dates">Seleziona le date</string>
+    <string name="select_a_date">Seleziona una data</string>
+    <string name="filter_by_category">Filtra per categoria</string>
+    <string name="total_amount">Spese totali: €</string>
+    <string name="expanse_saved">Spesa salvata</string>
+    <string name="expanse_not_saved">Spesa non salvata</string>
+    <string name="start_measurement">Avvia misurazione</string>
+    <string name="temperature_measurement">Misurazione della temperatura corporea</string>
+    <string name="heartbeat_measurement">Misurazione del battito cardiaco</string>
+    <string name="weight_measurement">Misurazione del peso</string>
+    <string name="blood_glucose_measurement">Misurazione della glicemia</string>
+    <string name="my_measurement_data">Dati della mia misurazione:\n</string>
+    <string name="temperature">Temperatura: </string>
+    <string name="heartbeat">Battito cardiaco: </string>
+    <string name="weight">Peso: </string>
+    <string name="blood_glucose">Glicemia: </string>
+    <string name="share_data">Condividi i tuoi dati</string>
+    <string name="generated_by_asilapp">\nGenerato dall\'App AsilApp!</string>
+    <string name="share">Condividi</string>
+    <string name="bluetooth_not_found">Il dispositivo non supporta il bluetooth</string>
+</resources>

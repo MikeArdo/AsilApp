@@ -1,0 +1,86 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AsilApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryVariant</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="android:colorBackground">@color/backgroundColor</item>
+
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
+        <item name="android:colorError">@color/errorColor</item>
+
+
+
+        <!-- Personalizzazione globale dei componenti -->
+        <item name="android:buttonStyle">@style/GlobalButton</item>
+        <item name="android:editTextStyle">@style/GlobalEditText</item>
+        <item name="android:toolbarStyle">@style/GlobalToolbar</item>
+
+        <item name="materialCalendarTheme">@style/ThemeOverlay.App.DateRangePicker</item>
+
+        <item name="bottomSheetDialogTheme">@style/ModalBottomSheetDialog</item>
+    </style>
+
+    <!-- Splash screen -->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen" >
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.AsilApp</item>
+    </style>
+
+    <style name="Theme.AsilApp" parent="Base.Theme.AsilApp" />
+
+    <!-- Stile globale per i pulsanti -->
+    <style name="GlobalButton" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/primaryColor</item>
+        <item name="android:textColor">@color/surfaceColor</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <!-- Stile globale per i campi di testo -->
+    <style name="GlobalEditText" parent="Widget.Material3.TextInputEditText.FilledBox">
+        <item name="android:textColor">@color/textPrimary</item>
+        <item name="android:backgroundTint">@color/primaryColor</item>
+    </style>
+
+
+    <!-- Stile globale per la Toolbar -->
+    <style name="GlobalToolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/primaryColor</item>
+        <item name="android:textColor">@color/surfaceColor</item>
+        <item name="android:textColorPrimary">@color/surfaceColor</item>
+        <item name="colorControlNormal">@color/surfaceColor</item>
+        <item name="titleTextColor">@color/surfaceColor</item>
+    </style>
+
+    <style name="ThemeOverlay.App.DateRangePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
+        <item name="textInputStyle">@style/NoTextInput</item>
+    </style>
+
+    <style name="NoTextInput">
+        <item name="android:visibility">gone</item>  <!-- Hide the text input field -->
+    </style>
+
+    <style name="roundedImageViewRounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+
+
+    <style name="ModalBottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheet</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
+    </style>
+
+
+</resources>

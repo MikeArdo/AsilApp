@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "732215626477",
+    "project_id": "asilapp-220fe",
+    "storage_bucket": "asilapp-220fe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732215626477:android:434c1a9481d55cb9665ae4",
+        "android_client_info": {
+          "package_name": "it.bugbuster.asilapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "REMOVED_SECRET"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
