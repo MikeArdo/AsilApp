@@ -82,5 +82,8 @@
         <item name="cornerSize">24dp</item>
     </style>
 
+    <style name="MaterialTextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+
+    </style>
 
 </resources>

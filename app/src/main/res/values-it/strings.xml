@@ -29,7 +29,8 @@
     <string name="scan_from_gallery">Scannerizza dalla galleria</string>
     <string name="scan_qr_code">Scannerizza codice QR</string>
     <string name="error_decode_qrcode">Lettura codice QR fallita</string>
-    <string name="camera_permission">Per la scansione dei codici QR è richiesta l\'autorizzazione della fotocamera</string>
+    <string name="camera_permission">Autorizzazione fotocamera negata. Questa funzionalità non è disponibile</string>
+    <string name="bluetooth_permission">Autorizzazione bluetooth negata. Questa funzionalità non è disponibile</string>
     <string name="expense_amount">Importo spesa</string>
     <string name="save_expense">Salva Spesa</string>
     <string name="date_expense">Data spesa</string>
@@ -68,4 +69,17 @@
     <string name="generated_by_asilapp">\nGenerato dall\'App AsilApp!</string>
     <string name="share">Condividi</string>
     <string name="bluetooth_not_found">Il dispositivo non supporta il bluetooth</string>
+    <string name="bluetooth_not_enabled">Bluetooth non attivato</string>
+    <string name="cancel">Annulla</string>
+    <string name="deny">Nega</string>
+    <string name="allow">Concedi</string>
+    <string name="no_thanks">No, grazie</string>
+    <string name="continue_text">Continua</string>
+    <string name="camera_permission_request">Richiesta permesso fotocamera</string>
+    <string name="camera_permission_description">L\'app richiede l\'accesso alla fotocamera per scannerizzare il codice qr. Senza questo permesso, questa funzionalità sarà disabilitata.</string>
+    <string name="bluetooth_permission_request">Richiesta permesso bluetooth</string>
+    <string name="bluetooth_permission_description">L\'app richiede l\'accesso al Bluetooth per connettersi al contenitore di apparecchiature biomedicali. Senza questo permesso, alcune funzionalità saranno disabilitate.</string>
+    <string name="access_allowed">Accesso consentito!</string>
+    <string name="wrong_password">Password errata!</string>
+    <string name="title_biomedical_container">Inserisci la password del contenitore biomedicale</string>
 </resources>

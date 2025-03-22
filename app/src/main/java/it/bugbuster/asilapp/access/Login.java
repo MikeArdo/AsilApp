@@ -2,6 +2,7 @@ package it.bugbuster.asilapp.access;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import androidx.core.splashscreen.SplashScreen;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -89,9 +91,31 @@ public class Login extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(Login.this, Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED) {
                     startQRScanner();
+                } else if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        Login.this, Manifest.permission.CAMERA)) {
+                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(Login.this)
+                            .setTitle(getString(R.string.camera_permission_request))
+                            .setMessage(getString(R.string.camera_permission_description))
+                            .setNegativeButton(getString(R.string.no_thanks), (dialog, which) -> {
+                                Toast.makeText(Login.this, getString(R.string.camera_permission),
+                                        Toast.LENGTH_LONG).show();
+                            })
+                            .setPositiveButton(getString(R.string.continue_text), (dialog, which) -> {
+                                ActivityCompat.requestPermissions(Login.this,
+                                        new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+                            });
+                    dialogBuilder.create();
+                    dialogBuilder.show();
                 } else {
-                    ActivityCompat.requestPermissions(Login.this,
-                            new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(Login.this)
+                            .setTitle(getString(R.string.camera_permission_request))
+                            .setMessage(getString(R.string.camera_permission_description))
+                            .setPositiveButton(getString(R.string.continue_text), (dialog, which) -> {
+                                ActivityCompat.requestPermissions(Login.this,
+                                        new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST);
+                            });
+                    dialogBuilder.create();
+                    dialogBuilder.show();
                 }
             }
         });
