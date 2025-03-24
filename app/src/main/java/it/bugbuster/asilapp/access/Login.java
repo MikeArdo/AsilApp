@@ -2,7 +2,6 @@ package it.bugbuster.asilapp.access;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -29,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
-import it.bugbuster.asilapp.DatabaseHelper;
+import it.bugbuster.asilapp.database.DatabaseHelper;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.qrcode.CustomCaptureActivity;
 import it.bugbuster.asilapp.utils.AuthUtils;

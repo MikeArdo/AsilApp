@@ -27,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import it.bugbuster.asilapp.MailSender;
+import it.bugbuster.asilapp.service.MailSender;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.qrcode.QRCodeGeneration;

@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
@@ -29,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import it.bugbuster.asilapp.DatabaseHelper;
+import it.bugbuster.asilapp.database.DatabaseHelper;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.utils.DateRangePickerUtils;
 

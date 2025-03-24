@@ -82,4 +82,5 @@
     <string name="access_allowed">Accesso consentito!</string>
     <string name="wrong_password">Password errata!</string>
     <string name="title_biomedical_container">Inserisci la password del contenitore biomedicale</string>
+    <string name="ok">Ok</string>
 </resources>

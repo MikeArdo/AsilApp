@@ -1,4 +1,4 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.measurements;
 
 public enum Measurements {
     TEMPERATURE,

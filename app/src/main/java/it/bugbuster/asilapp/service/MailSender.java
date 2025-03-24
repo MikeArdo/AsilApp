@@ -1,4 +1,4 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.service;
 import android.graphics.Bitmap;
 
 import jakarta.activation.DataHandler;

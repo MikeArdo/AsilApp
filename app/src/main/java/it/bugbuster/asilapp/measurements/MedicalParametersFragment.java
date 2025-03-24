@@ -1,4 +1,4 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.measurements;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import it.bugbuster.asilapp.R;
+import it.bugbuster.asilapp.utils.NavigationUtil;
 
 public class MedicalParametersFragment extends Fragment {
 
@@ -28,6 +31,11 @@ public class MedicalParametersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        NavigationUtil.showHomeButton(this);
         return inflater.inflate(R.layout.fragment_medical_parameters, container, false);
     }
+
+
+
 }

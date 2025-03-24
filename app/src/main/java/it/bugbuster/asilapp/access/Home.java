@@ -13,11 +13,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import it.bugbuster.asilapp.InformationFragment;
-import it.bugbuster.asilapp.MedicalParametersFragment;
+import it.bugbuster.asilapp.measurements.MedicalParametersFragment;
 import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
-import it.bugbuster.asilapp.ProfileFragment;
+import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.expenses.ExpenseListFragment;
+import it.bugbuster.asilapp.utils.NavigationUtil;
 
 
 public class Home extends AppCompatActivity {
@@ -37,30 +38,21 @@ public class Home extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
-            showHomeButton();
+            NavigationUtil.showHomeButton(this);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new MedicalParametersFragment())
                     .commit();
         }
 
         fab.setOnClickListener(view -> {
-            //bottomNav.setSelectedItemId(R.id.nav_list);
             MyBottomSheetDialogFragment bottomSheet = new MyBottomSheetDialogFragment();
             bottomSheet.show(getSupportFragmentManager(), "MyBottomSheetDialog");
-            /* TODO remove
-            getSupportFragmentManager().beginTransaction()
-                    //.replace(R.id.fragment_container, new AddExpenseFragment())
-                    .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.GLYCEMIA))
-                    .addToBackStack(null)
-                    .commit();
-
-             */
         });
 
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             if (item.getItemId() == R.id.nav_home) {
-                showHomeButton();
+                //NavigationUtil.showHomeButton(this);
                 selectedFragment = new MedicalParametersFragment();
             } else if (item.getItemId() == R.id.nav_info){
                 selectedFragment = new InformationFragment();
@@ -73,7 +65,7 @@ public class Home extends AppCompatActivity {
 
 
             if (item.getItemId() != R.id.nav_home) {
-                showBackButton();
+                NavigationUtil.showBackButton(this);
             }
 
             if (selectedFragment != null) {
@@ -117,20 +109,9 @@ public class Home extends AppCompatActivity {
 
     }
 
-    private void showHomeButton() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setLogo(R.drawable.home_white_24px); // Your home logo/icon
-        }
-    }
 
-    private void showBackButton() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(false);
-        }
-    }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

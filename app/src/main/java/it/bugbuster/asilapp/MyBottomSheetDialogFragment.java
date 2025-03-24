@@ -4,41 +4,29 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.journeyapps.barcodescanner.ScanOptions;
 
-import java.util.Objects;
-
-import it.bugbuster.asilapp.access.Login;
 import it.bugbuster.asilapp.expenses.AddExpenseFragment;
-import it.bugbuster.asilapp.measurements.TakeMeasurementsFragment;
+import it.bugbuster.asilapp.measurements.ChooseMeasurementFragment;
+import it.bugbuster.asilapp.utils.NavigationUtil;
 
 public class MyBottomSheetDialogFragment extends com.google.android.material.bottomsheet.BottomSheetDialogFragment {
     private static final int BLUETOOTH_PERMISSION_REQUEST = 200;
@@ -46,18 +34,7 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
 
     private BottomSheetDialog bottomSheetDialog;
     private BottomNavigationView bottomNav;
-/*
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_bottom_sheet, container, false);
 
-
-
-        return view;
-    }
-
- */
 
     @NonNull
     @Override
@@ -71,8 +48,7 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
 
         // Close button functionality
         Button btnAddExpanse = bottomSheetDialog.findViewById(R.id.add_expanse);
-        Button btnTemperature = bottomSheetDialog.findViewById(R.id.temperature);
-        Button btnHeartBeat = bottomSheetDialog.findViewById(R.id.hearthbeat);
+        Button btnChooseMeasurements = bottomSheetDialog.findViewById(R.id.chooseMeasurement);
 
         if (btnAddExpanse != null) {
             btnAddExpanse.setOnClickListener(v -> {
@@ -82,32 +58,13 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
                         .replace(R.id.fragment_container, new AddExpenseFragment())
                         .addToBackStack(null)
                         .commit();
+                NavigationUtil.showBackButton(this);
             });
         }
 
-        if (btnTemperature != null) {
-            btnTemperature.setOnClickListener(v -> {
+        if (btnChooseMeasurements != null) {
+            btnChooseMeasurements.setOnClickListener(v -> {
                 showPasswordDialog();
-                /*
-                bottomSheetDialog.dismiss();
-                bottomNav.setSelectedItemId(R.id.nav_home);
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.TEMPERATURE))
-                        .addToBackStack(null)
-                        .commit();
-
-                 */
-            });
-        }
-
-        if (btnHeartBeat != null) {
-            btnHeartBeat.setOnClickListener(v -> {
-                bottomSheetDialog.dismiss();
-                bottomNav.setSelectedItemId(R.id.nav_home);
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.HEARTBEAT))
-                        .addToBackStack(null)
-                        .commit();
             });
         }
 
@@ -162,9 +119,10 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
                 bottomSheetDialog.dismiss();
                 bottomNav.setSelectedItemId(R.id.nav_home);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.TEMPERATURE))
+                        .replace(R.id.fragment_container, new ChooseMeasurementFragment())
                         .addToBackStack(null)
                         .commit();
+                NavigationUtil.showBackButton(this);
             }
         }
     }
@@ -177,7 +135,7 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
         builder.setView(dialogView);
         EditText passwordField = dialogView.findViewById(R.id.password);
 
-        builder.setPositiveButton("OK", (dialog, which) -> {
+        builder.setPositiveButton(R.string.ok, (dialog, which) -> {
             String password = passwordField.getText().toString();
             if (password.equals(CORRECT_PASSWORD)) {
                 bluetoothConnection();
@@ -187,12 +145,7 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
             }
         });
 
-        builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel());
 
         builder.show();
     }
@@ -205,9 +158,10 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
                 bottomSheetDialog.dismiss();
                 bottomNav.setSelectedItemId(R.id.nav_home);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.TEMPERATURE))
+                        .replace(R.id.fragment_container, new ChooseMeasurementFragment())
                         .addToBackStack(null)
                         .commit();
+                NavigationUtil.showBackButton(this);
             } else {
                 Toast.makeText(requireContext(), getString(R.string.bluetooth_not_enabled),
                         Toast.LENGTH_LONG).show();

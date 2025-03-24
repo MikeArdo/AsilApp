@@ -1,7 +1,5 @@
 package it.bugbuster.asilapp.measurements;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -24,9 +22,8 @@ import com.google.android.material.progressindicator.CircularProgressIndicator;
 
 import java.util.Random;
 
-import it.bugbuster.asilapp.InformationFragment;
-import it.bugbuster.asilapp.Measurements;
 import it.bugbuster.asilapp.R;
+import it.bugbuster.asilapp.utils.NavigationUtil;
 
 public class TakeMeasurementsFragment extends Fragment implements SensorEventListener {
     private static final String TYPE_MEASUREMENT = "type_measurement";
@@ -73,6 +70,8 @@ public class TakeMeasurementsFragment extends Fragment implements SensorEventLis
         valMeasurement = view.findViewById(R.id.valMeasurement);
         sensorManager = (SensorManager) requireContext().getSystemService(Context.SENSOR_SERVICE);
         isMeasuring = false;
+
+        NavigationUtil.showBackButton(this);
 
         if (sensorManager != null && typeMeasurement == Measurements.TEMPERATURE) {
             proximitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);

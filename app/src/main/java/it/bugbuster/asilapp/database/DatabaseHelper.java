@@ -1,4 +1,4 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.database;
 
 import android.content.ContentValues;
 import android.content.Context;

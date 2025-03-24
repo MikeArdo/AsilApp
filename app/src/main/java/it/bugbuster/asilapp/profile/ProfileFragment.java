@@ -1,4 +1,4 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.profile;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
+import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.access.Login;
 import it.bugbuster.asilapp.utils.UserAvatarUtil;
 

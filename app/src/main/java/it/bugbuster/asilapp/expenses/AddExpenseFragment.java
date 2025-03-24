@@ -18,8 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import it.bugbuster.asilapp.DatabaseHelper;
-import it.bugbuster.asilapp.MedicalParametersFragment;
+import it.bugbuster.asilapp.database.DatabaseHelper;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.utils.DatePickerUtils;
 
