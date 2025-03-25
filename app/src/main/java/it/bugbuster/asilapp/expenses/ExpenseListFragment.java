@@ -28,12 +28,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import it.bugbuster.asilapp.database.DatabaseHelper;
+import it.bugbuster.asilapp.database.ExpensesDatabase;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.utils.DateRangePickerUtils;
 
 public class ExpenseListFragment extends Fragment {
-    private DatabaseHelper dbHelper;
+    private ExpensesDatabase expensesDatabase;
     private ListView expenseListView;
     private AutoCompleteTextView categoryFilter;
     private EditText dateFilter;
@@ -47,12 +47,12 @@ public class ExpenseListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_expenses_list, container, false);
 
-        dbHelper = new DatabaseHelper(getContext());
+        expensesDatabase = new ExpensesDatabase(getContext());
         expenseListView = view.findViewById(R.id.listViewExpenses);
         categoryFilter = view.findViewById(R.id.spinnerFilterCategory);
         dateFilter = view.findViewById(R.id.editTextFilterDate);
         amountView = view.findViewById(R.id.totalAmount);
-        dbHelper.syncLocalDataToFirestore(getContext());
+        expensesDatabase.syncLocalDataToFirestore(getContext());
         dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         dateRangePicker = DateRangePickerUtils.setupDateRangePicker();
@@ -116,15 +116,15 @@ public class ExpenseListFragment extends Fragment {
         if (filtered) {
             String selectedCategory = categoryFilter.getText().toString();
             String selectedDate = dateFilter.getText().toString();
-            cursor = dbHelper.getFilteredExpenses(selectedCategory, selectedDate);
+            cursor = expensesDatabase.getFilteredExpenses(selectedCategory, selectedDate);
         } else {
-            cursor = dbHelper.getExpenses();
+            cursor = expensesDatabase.getExpenses();
         }
 
         double totalAmount = 0;
 
         List<String> amountsWithSymbol = new ArrayList<>();
-
+        if (cursor == null) return;
         if (cursor.moveToFirst()) {
             do {
                 int columnIndex = cursor.getColumnIndex("amount");
@@ -138,7 +138,7 @@ public class ExpenseListFragment extends Fragment {
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(
                 getContext(),
-                R.layout.expenses_list,
+                R.layout.item_list,
                 cursor,
                 new String[]{"category", "date", "amount"},
                 new int[]{R.id.item_title, R.id.item_subtitle, R.id.item_metadata},

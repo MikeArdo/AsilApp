@@ -17,15 +17,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import it.bugbuster.asilapp.R;
+import it.bugbuster.asilapp.database.MeasurementsDatabase;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
 public class TakeMeasurementsFragment extends Fragment implements SensorEventListener {
+    private MeasurementsDatabase dbMeasurements;
     private static final String TYPE_MEASUREMENT = "type_measurement";
     private CircularProgressIndicator progressIndicator;
     private Button startButton, shareButton;
@@ -63,6 +68,8 @@ public class TakeMeasurementsFragment extends Fragment implements SensorEventLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_take_measurements, container, false);
+
+        dbMeasurements = new MeasurementsDatabase(getContext());
         progressIndicator = view.findViewById(R.id.circularProgressIndicator);
         textMeasurement = view.findViewById(R.id.textMeasurement);
         startButton = view.findViewById(R.id.startButton);
@@ -140,6 +147,7 @@ public class TakeMeasurementsFragment extends Fragment implements SensorEventLis
                 isMeasuring = false;
                 startButton.setEnabled(true);
                 shareButton.setVisibility(View.VISIBLE);
+                saveMeasurement();
             }
         }.start();
     }
@@ -229,6 +237,24 @@ public class TakeMeasurementsFragment extends Fragment implements SensorEventLis
 
         Intent shareIntent = Intent.createChooser(sendIntent, getString(R.string.share_data));
         startActivity(shareIntent);
+    }
+
+    private void saveMeasurement() {
+        LocalDateTime now = LocalDateTime.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String formattedDateTime = now.format(formatter);
+        String typeMeasurement = String.valueOf(this.typeMeasurement);
+        String valueMeasurement = valMeasurement.getText().toString();
+
+
+        boolean inserted = dbMeasurements.addMeasurement(getContext(), typeMeasurement, formattedDateTime, valueMeasurement);
+
+        if (inserted) {
+            Toast.makeText(getContext(), getString(R.string.measurement_saved), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), getString(R.string.measurement_not_saved), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

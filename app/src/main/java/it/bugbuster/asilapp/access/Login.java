@@ -28,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
-import it.bugbuster.asilapp.database.DatabaseHelper;
+import it.bugbuster.asilapp.database.ExpensesDatabase;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.qrcode.CustomCaptureActivity;
 import it.bugbuster.asilapp.utils.AuthUtils;
@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText emailField, passwordField;
     private Button btnRegister, btnLogin, btnLoginQRCode;
-    private DatabaseHelper dbHelper;
+    private ExpensesDatabase expensesDatabase;
 
     @Override
     protected void onStart() {
@@ -66,7 +66,7 @@ public class Login extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin = findViewById(R.id.btnLogin);
         btnLoginQRCode = findViewById(R.id.btnLoginQRCode);
-        dbHelper = new DatabaseHelper(this);
+        expensesDatabase = new ExpensesDatabase(this);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Login.this, R.string.signin_done, Toast.LENGTH_SHORT).show();
-                            dbHelper.syncFirestoreToLocal(getBaseContext());
+                            expensesDatabase.syncFirestoreToLocal(getBaseContext());
                             saveToSharedPreferences(Login.this);
                             Intent intent = new Intent(Login.this, Home.class);
                             startActivity(intent);

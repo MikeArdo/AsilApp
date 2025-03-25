@@ -18,12 +18,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import it.bugbuster.asilapp.database.DatabaseHelper;
+import it.bugbuster.asilapp.database.ExpensesDatabase;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.utils.DatePickerUtils;
 
 public class AddExpenseFragment extends Fragment {
-    private DatabaseHelper dbHelper;
+    private ExpensesDatabase expensesDatabase;
     private EditText amountInput, dateInput;
     private AutoCompleteTextView categorySpinner;
     private Button saveButton;
@@ -34,7 +34,7 @@ public class AddExpenseFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_expense, container, false);
 
-        dbHelper = new DatabaseHelper(getContext());
+        expensesDatabase = new ExpensesDatabase(getContext());
         amountInput = view.findViewById(R.id.editTextAmount);
         dateInput = view.findViewById(R.id.editTextDate);
         categorySpinner = view.findViewById(R.id.spinnerCategory);
@@ -64,7 +64,7 @@ public class AddExpenseFragment extends Fragment {
         }
 
         double amount = Double.parseDouble(amountStr);
-        boolean inserted = dbHelper.addExpense(getContext(), amount, category, date);
+        boolean inserted = expensesDatabase.addExpense(getContext(), amount, category, date);
 
         if (inserted) {
             Toast.makeText(getContext(), getString(R.string.expanse_saved), Toast.LENGTH_SHORT).show();

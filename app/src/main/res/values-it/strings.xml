@@ -83,4 +83,17 @@
     <string name="wrong_password">Password errata!</string>
     <string name="title_biomedical_container">Inserisci la password del contenitore biomedicale</string>
     <string name="ok">Ok</string>
+    <string name="measurement_saved">Misurazione salvata</string>
+    <string name="measurement_not_saved">Misurazione non salvata</string>
+    <string-array name="measurements_type_empty">
+        <item />
+        <item>@string/TEMPERATURE</item>
+        <item>@string/HEARTBEAT</item>
+        <item>@string/WEIGHT</item>
+        <item>@string/GLYCEMIA</item>
+    </string-array>
+    <string name="TEMPERATURE">Temperatura</string>
+    <string name="HEARTBEAT">Battito cardiaco</string>
+    <string name="WEIGHT">Peso</string>
+    <string name="GLYCEMIA">Glicemia</string>
 </resources>
