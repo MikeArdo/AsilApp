@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import it.bugbuster.asilapp.InformationFragment;
+import it.bugbuster.asilapp.diseases.DiseasesListFragment;
 import it.bugbuster.asilapp.measurements.MedicalParametersFragment;
 import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
 import it.bugbuster.asilapp.profile.ProfileFragment;
@@ -55,7 +56,7 @@ public class Home extends AppCompatActivity {
                 //NavigationUtil.showHomeButton(this);
                 selectedFragment = new MedicalParametersFragment();
             } else if (item.getItemId() == R.id.nav_info){
-                selectedFragment = new InformationFragment();
+                selectedFragment = new DiseasesListFragment();
             } else if (item.getItemId() == R.id.nav_list){
                 selectedFragment = new ExpenseListFragment();
             } else if (item.getItemId() == R.id.nav_profile){
