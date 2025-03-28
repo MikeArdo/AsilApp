@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import it.bugbuster.asilapp.InformationFragment;
 import it.bugbuster.asilapp.TabsFragment;
 import it.bugbuster.asilapp.diseases.DiseasesListFragment;
 import it.bugbuster.asilapp.measurements.MedicalParametersFragment;
@@ -55,7 +56,7 @@ public class HomeAsylumSeeker extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_home) {
                 selectedFragment = new TabsFragment();
             } else if (item.getItemId() == R.id.nav_info){
-                // TODO sistemare
+                selectedFragment = new InformationFragment();
             } else if (item.getItemId() == R.id.nav_list){
                 selectedFragment = new ExpenseListFragment();
             } else if (item.getItemId() == R.id.nav_profile){

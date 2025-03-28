@@ -3,10 +3,20 @@ package it.bugbuster.asilapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.media3.exoplayer.ExoPlayer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import it.bugbuster.asilapp.entity.VideoModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +24,14 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class InformationFragment extends Fragment {
+
+    private ViewPager2 videoViewPager;
+    private ExoPlayer exoPlayer;
+    private VideoAdapter videoAdapter;
+    private List<VideoModel> videoList;
+    private TabLayout tabLayout;
+    private int previousPosition = -1;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +76,66 @@ public class InformationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_information, container, false);
+        View view = inflater.inflate(R.layout.fragment_information, container, false);
+        videoViewPager = view.findViewById(R.id.videoViewPager);
+        videoList = new ArrayList<>();
+        tabLayout = view.findViewById(R.id.tabLayout);
+
+        // Add sample video URLs
+        videoList.add(new VideoModel("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"));
+        videoList.add(new VideoModel("https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"));
+        videoList.add(new VideoModel("https://www.w3schools.com/html/mov_bbb.mp4"));
+
+        videoAdapter = new VideoAdapter(requireContext(), videoList);
+
+        videoViewPager.setAdapter(videoAdapter);
+
+        new TabLayoutMediator(tabLayout, videoViewPager, (tab, position) -> {
+
+        }).attach();
+
+        videoViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                exoPlayer = videoAdapter.getExoPlayerAtPosition(previousPosition);
+                // Pause the video when switching pages
+                if (exoPlayer != null) {
+                    exoPlayer.pause();
+                }
+                previousPosition = position;
+            }
+
+        });
+
+        return view;
     }
+    @Override
+    public void onPause() {
+        super.onPause();
+        exoPlayer = videoAdapter.getExoPlayerAtPosition(previousPosition);
+        if (exoPlayer != null) {
+            exoPlayer.pause();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        exoPlayer = videoAdapter.getExoPlayerAtPosition(previousPosition);
+        if (exoPlayer != null) {
+            exoPlayer.play();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        exoPlayer = videoAdapter.getExoPlayerAtPosition(previousPosition);
+        if (exoPlayer != null) {
+            exoPlayer.release();
+            exoPlayer = null;
+        }
+    }
+
 }
