@@ -27,12 +27,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import it.bugbuster.asilapp.entity.AsylumSeeker;
+import it.bugbuster.asilapp.entity.Doctor;
 import it.bugbuster.asilapp.service.MailSender;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.qrcode.QRCodeGeneration;
 import it.bugbuster.asilapp.utils.DatePickerUtils;
-//TODO modificare la registrazione specializzando l'utente in Dottore e Richiedente asilo
+// TODO modificare la registrazione specializzando l'utente in Dottore e Richiedente asilo
 public class Registration extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -44,6 +46,7 @@ public class Registration extends AppCompatActivity {
     private Button btnRegister;
 
     private RadioGroup radioTypeUser;
+    private String typeUser;
 
     private MaterialDatePicker<Long> datePicker;
 
@@ -69,6 +72,7 @@ public class Registration extends AppCompatActivity {
         licenseNumberLayout = findViewById(R.id.licenseNumberLayout);
         radioTypeUser = findViewById(R.id.radio_type_user);
         datePicker = DatePickerUtils.setupDatePicker();
+        typeUser = "asylum_seeker";
 
         datePicker.addOnPositiveButtonClickListener (selection ->  {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -81,9 +85,11 @@ public class Registration extends AppCompatActivity {
                 if (checkedId == R.id.radio_doctor) {
                     refugeeShelterLayout.setVisibility(View.GONE);
                     licenseNumberLayout.setVisibility(View.VISIBLE);
+                    typeUser = "doctor";
                 } else if (checkedId == R.id.radio_asylum_seeker) {
                     licenseNumberLayout.setVisibility(View.GONE);
                     refugeeShelterLayout.setVisibility(View.VISIBLE);
+                    typeUser = "asylum_seeker";
                 }
             }
         });
@@ -122,12 +128,12 @@ public class Registration extends AppCompatActivity {
             return;
         }
 
-        if (refugeeShelterField.getVisibility() == View.VISIBLE && refugeeShelter.isEmpty()) {
+        if (refugeeShelterLayout.getVisibility() == View.VISIBLE && refugeeShelter.isEmpty()) {
             Toast.makeText(this, R.string.empty_fields_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (licenseNumberField.getVisibility() == View.VISIBLE && licenseNumber.isEmpty()) {
+        if (licenseNumberLayout.getVisibility() == View.VISIBLE && licenseNumber.isEmpty()) {
             Toast.makeText(this, R.string.empty_fields_error, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -144,12 +150,25 @@ public class Registration extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser fBuser = mAuth.getCurrentUser();
-                            User user = new User(name, surname, email, birthDate);
-                            if (fBuser != null) {
-                                saveUserToFirestore(fBuser.getUid(), user);
+
+                            User user = null;
+                            if (typeUser.equals("asylum_seeker")) {
+                                if (fBuser != null) {
+                                    user = new AsylumSeeker(fBuser.getUid(), name, surname, email, birthDate, refugeeShelter);
+                                }
+                                // TODO sistemare refugeeShelter
+
+                            } else if (typeUser.equals("doctor")) {
+                                if (fBuser != null) {
+                                    user = new Doctor(fBuser.getUid(), name, surname, email, birthDate, licenseNumber);
+                                }
+
+                            }
+                            if (fBuser != null && user != null) {
                                 String credentials = "email:" + email + ";password:" + password;
                                 Bitmap qrCode = generateQRCode(credentials);
                                 sendEmail(user, qrCode);
+                                saveUserToFirestore(fBuser.getUid(), user);
                                 finish();
                             }
                         } else {
@@ -171,7 +190,7 @@ public class Registration extends AppCompatActivity {
     }
 
     private void sendEmail(User user, Bitmap qrCode) {
-        //TODO change emailTo
+        // TODO change emailTo
         String emailTo = "michele.pio2000@gmail.com";
         String subject = getString(R.string.welcome_to_asilapp);
         String body = getString(R.string.welcome_message, user.getName(), user.getSurname());
@@ -182,13 +201,23 @@ public class Registration extends AppCompatActivity {
     }
 
     private void saveUserToFirestore(String userId, User user) {
+        if (user instanceof AsylumSeeker) {
+            db.collection("users").document(userId).set(user)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(Registration.this, R.string.saved_data, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, HomeAsylumSeeker.class);
+                        startActivity(intent);
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(Registration.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_SHORT).show());
+        } else if (user instanceof Doctor) {
+            db.collection("doctors").document(userId).set(user)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(Registration.this, R.string.saved_data, Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, HomeDoctor.class);
+                        startActivity(intent);
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(Registration.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
 
-        db.collection("users").document(userId).set(user)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(Registration.this, R.string.saved_data, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this, Home.class);
-                    startActivity(intent);
-                })
-                .addOnFailureListener(e -> Toast.makeText(Registration.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

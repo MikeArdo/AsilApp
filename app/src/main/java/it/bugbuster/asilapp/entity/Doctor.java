@@ -4,8 +4,8 @@ public class Doctor extends User {
     private String licenseNumber;
 
 
-    public Doctor(String name, String surname, String email, String birthDate, String licenseNumber) {
-        super(name, surname, email, birthDate);
+    public Doctor(String id, String name, String surname, String email, String birthDate, String licenseNumber) {
+        super(id, name, surname, email, birthDate);
         this.licenseNumber = licenseNumber;
     }
 

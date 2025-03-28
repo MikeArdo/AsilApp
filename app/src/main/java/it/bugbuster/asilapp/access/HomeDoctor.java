@@ -12,55 +12,42 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import it.bugbuster.asilapp.InformationFragment;
-import it.bugbuster.asilapp.diseases.DiseasesListFragment;
-import it.bugbuster.asilapp.measurements.MedicalParametersFragment;
 import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
-import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.R;
+import it.bugbuster.asilapp.diseases.DiseasesListFragment;
+import it.bugbuster.asilapp.doctor.AsylumSeekersListFragment;
 import it.bugbuster.asilapp.expenses.ExpenseListFragment;
+import it.bugbuster.asilapp.measurements.MedicalParametersFragment;
+import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
 
-public class Home extends AppCompatActivity {
-    private FloatingActionButton fab;
-    private SensorManager mSensorManager;
+public class HomeDoctor extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home_doctor);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        fab = findViewById(R.id.floating_action_button);
-
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-
 
         if (savedInstanceState == null) {
             NavigationUtil.showHomeButton(this);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new MedicalParametersFragment())
+                    .replace(R.id.fragment_container, new AsylumSeekersListFragment())
                     .commit();
         }
-
-        fab.setOnClickListener(view -> {
-            MyBottomSheetDialogFragment bottomSheet = new MyBottomSheetDialogFragment();
-            bottomSheet.show(getSupportFragmentManager(), "MyBottomSheetDialog");
-        });
 
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             if (item.getItemId() == R.id.nav_home) {
-                //NavigationUtil.showHomeButton(this);
-                selectedFragment = new MedicalParametersFragment();
+                selectedFragment = new AsylumSeekersListFragment();
             } else if (item.getItemId() == R.id.nav_info){
-                selectedFragment = new DiseasesListFragment();
-            } else if (item.getItemId() == R.id.nav_list){
-                selectedFragment = new ExpenseListFragment();
+                // TODO impostare il fragment
+                //selectedFragment = new DiseasesListFragment();
             } else if (item.getItemId() == R.id.nav_profile){
-                //myToolbar.setElevation(0f);
                 selectedFragment = new ProfileFragment();
             }
 
@@ -72,7 +59,7 @@ public class Home extends AppCompatActivity {
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, selectedFragment)
-                        .addToBackStack("home")
+                        .addToBackStack("home_doctor")
                         .commit();
             }
             return true;
@@ -86,13 +73,13 @@ public class Home extends AppCompatActivity {
                 if (backStackCount > 0) {
                     String backStackName = getSupportFragmentManager().getBackStackEntryAt(backStackCount - 1).getName();
 
-                    if ("home".equals(backStackName)) {
+                    if ("home_doctor".equals(backStackName)) {
                         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-                        if (!(currentFragment instanceof MedicalParametersFragment)) {
+                        if (!(currentFragment instanceof AsylumSeekersListFragment)) {
                             bottomNav.setSelectedItemId(R.id.nav_home);
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.fragment_container, new MedicalParametersFragment())
+                                    .replace(R.id.fragment_container, new AsylumSeekersListFragment())
                                     .commit();
                         } else {
                             finish();

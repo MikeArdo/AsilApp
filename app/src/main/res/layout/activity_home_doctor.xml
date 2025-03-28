@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".access.Home">
+    tools:context=".access.HomeDoctor">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        app:titleCentered="true"
-        app:title="@string/app_name"
-        app:navigationIconTint="@android:color/white"
-        style="@style/GlobalToolbar"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:titleCentered="true"
+            app:title="@string/app_name"
+            app:navigationIconTint="@android:color/white"
+            style="@style/GlobalToolbar"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,14 +31,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/AppBarLayout"
         android:layout_above="@id/bottom_navigation">
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_action_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            android:contentDescription="Aggiungi"
-            app:srcCompat="@drawable/add_24px"/>
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -46,5 +38,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:menu="@menu/bottom_nav_menu_doctor"/>
 </RelativeLayout>

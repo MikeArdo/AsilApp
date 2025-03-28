@@ -49,9 +49,25 @@ public class Login extends AppCompatActivity {
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            saveToSharedPreferences(this);
-            startActivity(new Intent(this, Home.class));
-            finish();
+            SharedPreferences sharedPreferences = this.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
+            String typeUser = sharedPreferences.getString("typeUser", null);
+            if (typeUser != null) {
+                saveToSharedPreferences(this);
+                Intent intent = null;
+
+                if (typeUser.equals("asylum_seeker")) {
+                    intent = new Intent(this, HomeAsylumSeeker.class);
+
+                } else if (typeUser.equals("doctor")) {
+                    intent = new Intent(this, HomeDoctor.class);
+                }
+                if (intent != null) {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+                finish();
+            }
+
         }
     }
 
@@ -133,12 +149,42 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Login.this, R.string.signin_done, Toast.LENGTH_SHORT).show();
-                            expensesDatabase.syncFirestoreToLocal(getBaseContext());
-                            saveToSharedPreferences(Login.this);
-                            Intent intent = new Intent(Login.this, Home.class);
-                            startActivity(intent);
-                            finish();
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+                            FirebaseUser user = auth.getCurrentUser();
+                            if (user != null) {
+                                String userId = user.getUid();
+                                db.collection("users").document(userId).get()
+                                        .addOnSuccessListener(document -> {
+                                            if (document.exists()) {
+                                                saveToSharedPreferences(Login.this);
+                                                Toast.makeText(Login.this, R.string.signin_done, Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(Login.this, HomeAsylumSeeker.class);
+                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                db.collection("doctors").document(userId).get()
+                                                        .addOnSuccessListener(documentDoctor -> {
+                                                            if (documentDoctor.exists()) {
+                                                                saveToSharedPreferences(Login.this);
+                                                                Toast.makeText(Login.this, R.string.signin_done, Toast.LENGTH_SHORT).show();
+                                                                Intent intent = new Intent(Login.this, HomeDoctor.class);
+                                                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(e2 -> {
+                                                            Toast.makeText(Login.this, R.string.signin_failed, Toast.LENGTH_SHORT).show();
+                                                        });
+                                            }
+
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(Login.this, R.string.signin_failed, Toast.LENGTH_SHORT).show();
+                                        });
+                            }
                         } else {
                             Toast.makeText(Login.this, getString(R.string.signin_failed) + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -244,16 +290,39 @@ public class Login extends AppCompatActivity {
                             }
 
                             editor.putString("birthDate", birthDate);
+                            editor.putString("typeUser", "asylum_seeker");
 
                             editor.apply();
 
+                        } else {
+                            db.collection("doctors").document(userId)
+                                    .get()
+                                    .addOnSuccessListener(documentDoctor -> {
+                                        if (documentDoctor.exists()) {
+                                            String name = documentDoctor.getString("name");
+                                            String surname = documentDoctor.getString("surname");
+                                            String birthDate = documentDoctor.getString("birthDate");
+                                            String licenseNumber = documentDoctor.getString("licenseNumber");
+
+
+                                            // Save data in SharedPreferences
+                                            editor.putString("name", name);
+                                            editor.putString("surname", surname);
+                                            if (user != null) {
+                                                String email = user.getEmail();
+                                                editor.putString("email", email);
+                                            }
+
+                                            editor.putString("birthDate", birthDate);
+                                            editor.putString("licenseNumber", licenseNumber);
+                                            editor.putString("typeUser", "doctor");
+
+                                            editor.apply();
+
+                                        }
+                                    });
                         }
                     });
         }
-
     }
-
-
-
-
 }

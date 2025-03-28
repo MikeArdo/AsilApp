@@ -1,6 +1,9 @@
 package it.bugbuster.asilapp.entity;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
+    private String id;
     private String name;
     private String surname;
     private String email;
@@ -9,7 +12,8 @@ public class User {
     public User() {}
 
 
-    public User(String name, String surname, String email, String birthDate) {
+    public User(String id, String name, String surname, String email, String birthDate) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -47,5 +51,13 @@ public class User {
 
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

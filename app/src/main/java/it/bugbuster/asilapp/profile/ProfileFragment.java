@@ -60,6 +60,7 @@ public class ProfileFragment extends Fragment {
         String surname = sharedPreferences.getString("surname", "Surname");
         String email = sharedPreferences.getString("email", "Email");
         String birthDate = sharedPreferences.getString("birthDate", "Birth date");
+        String typeUser = sharedPreferences.getString("typeUser", null);
 
         UserAvatarUtil.setUserAvatar(name, surname, userAvatarImageView);
         String nameAndSurname = name + " " + surname;

@@ -20,12 +20,35 @@ import java.util.Locale;
 
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.database.DiseasesDatabase;
+import it.bugbuster.asilapp.doctor.AsylumSeekerDiseasesFragment;
+import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.utils.AuthUtils;
 
 public class DiseasesListFragment extends Fragment {
+    private static final String ARG_USER = "user";
+    private User user;
     private DiseasesDatabase diseasesDatabase;
     private ListView diseaseListView;
 
+    public DiseasesListFragment() {
+
+    }
+
+    public static DiseasesListFragment newInstance(User user) {
+        DiseasesListFragment fragment = new DiseasesListFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_USER, user);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            user = (User) getArguments().getSerializable(ARG_USER);
+        }
+    }
 
     @Nullable
     @Override
@@ -42,7 +65,13 @@ public class DiseasesListFragment extends Fragment {
     }
 
     private void loadDiseases() {
-        String userId = AuthUtils.getCurrentUserId();
+        String userId;
+        if (user != null) {
+            userId = user.getId();
+        } else {
+            userId = AuthUtils.getCurrentUserId();
+        }
+
         if (userId == null) return;
         Cursor cursor = diseasesDatabase.getDiseases(userId);
 
@@ -62,8 +91,6 @@ public class DiseasesListFragment extends Fragment {
             public void bindView(View view, Context context, Cursor cursor) {
                 super.bindView(view, context, cursor);
 
-               // TextView amountTextView = view.findViewById(R.id.item_metadata);
-                //amountTextView.setText(amount);
             }
         };
 
