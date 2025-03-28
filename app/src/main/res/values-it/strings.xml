@@ -96,4 +96,10 @@
     <string name="HEARTBEAT">Battito cardiaco</string>
     <string name="WEIGHT">Peso</string>
     <string name="GLYCEMIA">Glicemia</string>
+    <string name="disease">Patologia</string>
+    <string name="therapy">Terapia</string>
+    <string name="disease_saved">Patologia salvata</string>
+    <string name="disease_not_saved">Patologia non salvata</string>
+    <string name="medical_parameters">Parametri medici</string>
+    <string name="diseases">Patologie</string>
 </resources>

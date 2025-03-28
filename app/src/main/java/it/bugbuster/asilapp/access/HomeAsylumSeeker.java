@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import it.bugbuster.asilapp.TabsFragment;
 import it.bugbuster.asilapp.diseases.DiseasesListFragment;
 import it.bugbuster.asilapp.measurements.MedicalParametersFragment;
 import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
@@ -40,7 +41,7 @@ public class HomeAsylumSeeker extends AppCompatActivity {
         if (savedInstanceState == null) {
             NavigationUtil.showHomeButton(this);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new MedicalParametersFragment())
+                    .replace(R.id.fragment_container, new TabsFragment())
                     .commit();
         }
 
@@ -52,10 +53,9 @@ public class HomeAsylumSeeker extends AppCompatActivity {
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             if (item.getItemId() == R.id.nav_home) {
-                //NavigationUtil.showHomeButton(this);
-                selectedFragment = new MedicalParametersFragment();
+                selectedFragment = new TabsFragment();
             } else if (item.getItemId() == R.id.nav_info){
-                selectedFragment = new DiseasesListFragment();
+                // TODO sistemare
             } else if (item.getItemId() == R.id.nav_list){
                 selectedFragment = new ExpenseListFragment();
             } else if (item.getItemId() == R.id.nav_profile){
@@ -88,10 +88,10 @@ public class HomeAsylumSeeker extends AppCompatActivity {
                     if ("home".equals(backStackName)) {
                         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-                        if (!(currentFragment instanceof MedicalParametersFragment)) {
+                        if (!(currentFragment instanceof TabsFragment)) {
                             bottomNav.setSelectedItemId(R.id.nav_home);
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.fragment_container, new MedicalParametersFragment())
+                                    .replace(R.id.fragment_container, new TabsFragment())
                                     .commit();
                         } else {
                             finish();

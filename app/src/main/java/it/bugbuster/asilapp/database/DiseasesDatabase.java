@@ -3,13 +3,16 @@ package it.bugbuster.asilapp.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -201,8 +204,9 @@ public class DiseasesDatabase extends DatabaseHelper {
     public Cursor getDiseases(String user_id) {
         String logged_id = AuthUtils.getCurrentUserId();
         if (logged_id == null) return null;
-
+        FirebaseFirestore dbFirestore = FirebaseFirestore.getInstance();
         SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<String> namesDoctors = new ArrayList<>();
         if (isTableExists(db, TABLE_DISEASES)) {
             return db.rawQuery("SELECT * FROM " + TABLE_DISEASES + " WHERE user_id = ?", new String[]{user_id});
         } else {

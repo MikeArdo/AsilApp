@@ -1,6 +1,5 @@
 package it.bugbuster.asilapp.access;
 
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -10,14 +9,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
 import it.bugbuster.asilapp.R;
-import it.bugbuster.asilapp.diseases.DiseasesListFragment;
-import it.bugbuster.asilapp.doctor.AsylumSeekersListFragment;
-import it.bugbuster.asilapp.expenses.ExpenseListFragment;
-import it.bugbuster.asilapp.measurements.MedicalParametersFragment;
+import it.bugbuster.asilapp.diseases.AddDiseaseFragment;
+import it.bugbuster.asilapp.diseases.AsylumSeekersListFragment;
 import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
@@ -85,7 +80,6 @@ public class HomeDoctor extends AppCompatActivity {
                             finish();
                         }
                     } else {
-
                         getSupportFragmentManager().popBackStack();
                     }
                 } else {

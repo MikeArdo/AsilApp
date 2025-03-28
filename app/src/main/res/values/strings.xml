@@ -96,4 +96,10 @@
     <string name="HEARTBEAT">Heartbeat</string>
     <string name="WEIGHT">Weight</string>
     <string name="GLYCEMIA">Glycemia</string>
+    <string name="disease">Disease</string>
+    <string name="therapy">Therapy</string>
+    <string name="disease_saved">Disease saved</string>
+    <string name="disease_not_saved">Disease not saved</string>
+    <string name="medical_parameters">Medical parameters</string>
+    <string name="diseases">Diseases</string>
 </resources>

@@ -1,9 +1,8 @@
-package it.bugbuster.asilapp.doctor;
+package it.bugbuster.asilapp.diseases;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,10 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
@@ -26,17 +22,14 @@ import java.util.List;
 
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.UserAdapter;
-import it.bugbuster.asilapp.database.DiseasesDatabase;
-import it.bugbuster.asilapp.entity.AsylumSeeker;
+import it.bugbuster.asilapp.diseases.AsylumSeekerDiseasesFragment;
 import it.bugbuster.asilapp.entity.User;
-import it.bugbuster.asilapp.measurements.Measurements;
-import it.bugbuster.asilapp.measurements.TakeMeasurementsFragment;
 import it.bugbuster.asilapp.utils.AuthUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;
-import it.bugbuster.asilapp.utils.UserAvatarUtil;
 
 
 public class AsylumSeekersListFragment extends Fragment {
+    private OnBackPressedCallback callback;
     private ListView asylumSeekersListView;
     private UserAdapter adapter;
     private List<User> userList;
@@ -62,6 +55,7 @@ public class AsylumSeekersListFragment extends Fragment {
         userList = new ArrayList<>();
         adapter = new UserAdapter(requireContext(), userList);
         asylumSeekersListView.setAdapter(adapter);
+        NavigationUtil.showHomeButton(this);
 
         String logged_id = AuthUtils.getCurrentUserId();
         if (logged_id == null) return null;
@@ -77,6 +71,19 @@ public class AsylumSeekersListFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
+/*
+        callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                getParentFragmentManager().popBackStack();
+                callback.remove();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
+
+ */
+
 
         return view;
     }

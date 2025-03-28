@@ -21,6 +21,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +30,7 @@ import java.util.TimeZone;
 
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.database.MeasurementsDatabase;
+import it.bugbuster.asilapp.diseases.DiseasesListFragment;
 import it.bugbuster.asilapp.utils.DateRangePickerUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 import it.bugbuster.asilapp.utils.ResourcesUtil;
@@ -42,13 +44,20 @@ public class MedicalParametersFragment extends Fragment {
     private MaterialDatePicker<Pair<Long, Long>> dateRangePicker;
     private SimpleDateFormat dateFormat;
     private TextView valueView;
+    private TabLayout tabLayout;
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        NavigationUtil.showHomeButton(this);
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_medical_parameters, container, false);
-        NavigationUtil.showHomeButton(this);
+
         measurementsDatabase = new MeasurementsDatabase(getContext());
         measurementsListView = view.findViewById(R.id.listViewMeasurements);
         typeMeasurements = view.findViewById(R.id.spinnerFilterCategory);
@@ -105,6 +114,9 @@ public class MedicalParametersFragment extends Fragment {
                 loadMeasurements(true);
             }
         });
+
+
+
 
 
         loadMeasurements(false);

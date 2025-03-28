@@ -1,19 +1,24 @@
-package it.bugbuster.asilapp.doctor;
+package it.bugbuster.asilapp.diseases;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import it.bugbuster.asilapp.R;
-import it.bugbuster.asilapp.diseases.DiseasesListFragment;
 import it.bugbuster.asilapp.entity.User;
+import it.bugbuster.asilapp.utils.NavigationUtil;
 import it.bugbuster.asilapp.utils.UserAvatarUtil;
 
 
@@ -47,10 +52,12 @@ public class AsylumSeekerDiseasesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        NavigationUtil.showBackButton(this);
         View view = inflater.inflate(R.layout.fragment_asylum_seeker_diseases, container, false);
         TextView itemName = view.findViewById(R.id.item_name);
         TextView itemBirthdate = view.findViewById(R.id.item_birthdate);
         ImageView itemAvatar = view.findViewById(R.id.user_avatar);
+        Button button = view.findViewById(R.id.button);
 
         if (user != null) {
             String name = user.getName();
@@ -64,7 +71,40 @@ public class AsylumSeekerDiseasesFragment extends Fragment {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container_diseases, DiseasesListFragment.newInstance(user));
         transaction.commit();
-        // Inflate the layout for this fragment
+
+        getChildFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+
+            @Override
+            public void onFragmentAttached(@NonNull FragmentManager fm, @NonNull Fragment f, @NonNull Context context) {
+                super.onFragmentAttached(fm, f, context);
+                if (f instanceof AddDiseaseFragment) {
+                    button.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFragmentDetached(@NonNull FragmentManager fm, @NonNull Fragment f) {
+                super.onFragmentDetached(fm, f);
+                if (f instanceof AddDiseaseFragment) {
+                    button.setVisibility(View.VISIBLE);
+                }
+            }
+        }, true);
+
+        button.setOnClickListener(v -> {
+            getChildFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container_diseases, AddDiseaseFragment.newInstance(user))
+                .addToBackStack(null)
+                .commit();
+        });
+
+
+
+
+
         return view;
     }
+
+
+
 }
