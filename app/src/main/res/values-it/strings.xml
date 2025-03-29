@@ -102,4 +102,7 @@
     <string name="disease_not_saved">Patologia non salvata</string>
     <string name="medical_parameters">Parametri medici</string>
     <string name="diseases">Patologie</string>
+    <string name="nutritional_tips">Consigli nutrizionali</string>
+    <string name="prevention_and_lifestyle">Prevenzione e stili di vita</string>
+    <string name="purchase_of_drugs">Acquisto di farmaci</string>
 </resources>

@@ -22,10 +22,8 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         if (position == 0) {
-            // Load the SecondTabFragment for the second tab
             return new MedicalParametersFragment();
         } else {
-            // Load SampleFragment for other tabs
             return new DiseasesListFragment();
         }
     }

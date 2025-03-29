@@ -1,5 +1,8 @@
 package it.bugbuster.asilapp;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,10 +15,15 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.bugbuster.asilapp.access.HomeAsylumSeeker;
+import it.bugbuster.asilapp.access.HomeDoctor;
 import it.bugbuster.asilapp.entity.VideoModel;
 
 /**
@@ -81,10 +89,43 @@ public class InformationFragment extends Fragment {
         videoList = new ArrayList<>();
         tabLayout = view.findViewById(R.id.tabLayout);
 
-        // Add sample video URLs
-        videoList.add(new VideoModel("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"));
-        videoList.add(new VideoModel("https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"));
-        videoList.add(new VideoModel("https://www.w3schools.com/html/mov_bbb.mp4"));
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        String[] titleList = {
+                getString(R.string.nutritional_tips),
+                getString(R.string.prevention_and_lifestyle),
+                getString(R.string.purchase_of_drugs)
+        };
+
+
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
+        String typeUser = sharedPreferences.getString("typeUser", null);
+        String videoTable = null;
+        if (typeUser != null) {
+            if (typeUser.equals("asylum_seeker")) {
+                videoTable = "videos_asylum_seeker";
+            } else if (typeUser.equals("doctor")) {
+                videoTable = "videos_doctor";
+            }
+        }
+
+        if (videoTable != null) {
+            db.collection(videoTable).orderBy("number").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    int i = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String url = document.getString("url");
+                        if (url != null) {
+                            videoList.add(new VideoModel(titleList[i], url));
+                            videoAdapter.notifyItemInserted(i);
+                        }
+                        i++;
+                    }
+                }
+            });
+        }
+
 
         videoAdapter = new VideoAdapter(requireContext(), videoList);
 

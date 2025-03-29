@@ -102,4 +102,7 @@
     <string name="disease_not_saved">Disease not saved</string>
     <string name="medical_parameters">Medical parameters</string>
     <string name="diseases">Diseases</string>
+    <string name="nutritional_tips">Nutritional tips</string>
+    <string name="prevention_and_lifestyle">Prevention and lifestyle</string>
+    <string name="purchase_of_drugs">Purchase of drugs</string>
 </resources>

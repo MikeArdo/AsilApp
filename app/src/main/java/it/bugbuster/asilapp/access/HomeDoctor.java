@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import it.bugbuster.asilapp.InformationFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.diseases.AddDiseaseFragment;
 import it.bugbuster.asilapp.diseases.AsylumSeekersListFragment;
@@ -40,8 +41,7 @@ public class HomeDoctor extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_home) {
                 selectedFragment = new AsylumSeekersListFragment();
             } else if (item.getItemId() == R.id.nav_info){
-                // TODO impostare il fragment
-                //selectedFragment = new DiseasesListFragment();
+                selectedFragment = new InformationFragment();
             } else if (item.getItemId() == R.id.nav_profile){
                 selectedFragment = new ProfileFragment();
             }

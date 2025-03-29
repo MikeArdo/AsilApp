@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.media3.common.MediaItem;
@@ -21,7 +22,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     private List<VideoModel> videoList;
     private Context context;
-    private Map<Integer, ExoPlayer> exoPlayerMap;  // Map to store ExoPlayer instances by position
+    private Map<Integer, ExoPlayer> exoPlayerMap;
 
     public VideoAdapter(Context context, List<VideoModel> videoList) {
         this.context = context;
@@ -39,9 +40,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
         holder.setVideo(videoList.get(position).getVideoUrl());
-        holder.exoPlayer.pause();  // Ensure the player is paused when binding the view
+        holder.setTitle(videoList.get(position).getTitle());
+        holder.exoPlayer.pause();
 
-        // Save the ExoPlayer instance in the map
         exoPlayerMap.put(position, holder.exoPlayer);
     }
 
@@ -50,20 +51,25 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return videoList.size();
     }
 
-    // Method to get ExoPlayer instance for a specific position
     public ExoPlayer getExoPlayerAtPosition(int position) {
         return exoPlayerMap.get(position);
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {
+        private TextView videoTitle;
         private PlayerView playerView;
         private ExoPlayer exoPlayer;
 
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
+            videoTitle = itemView.findViewById(R.id.videoTitle);
             playerView = itemView.findViewById(R.id.playerView);
             exoPlayer = new ExoPlayer.Builder(context).build();
             playerView.setPlayer(exoPlayer);
+        }
+
+        public void setTitle(String title) {
+            videoTitle.setText(title);
         }
 
         public void setVideo(String url) {
