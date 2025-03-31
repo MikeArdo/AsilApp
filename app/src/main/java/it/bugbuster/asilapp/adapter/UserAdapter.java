@@ -1,4 +1,4 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.entity.AsylumSeeker;
 import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.utils.UserAvatarUtil;

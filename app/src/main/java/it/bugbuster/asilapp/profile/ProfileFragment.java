@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.access.Login;
+import it.bugbuster.asilapp.entity.RefugeeShelter;
 import it.bugbuster.asilapp.utils.UserAvatarUtil;
 
 public class ProfileFragment extends Fragment {

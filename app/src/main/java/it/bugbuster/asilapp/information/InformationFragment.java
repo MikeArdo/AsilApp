@@ -1,7 +1,6 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.information;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -12,19 +11,20 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.bugbuster.asilapp.access.HomeAsylumSeeker;
-import it.bugbuster.asilapp.access.HomeDoctor;
+import it.bugbuster.asilapp.R;
+import it.bugbuster.asilapp.adapter.VideoAdapter;
 import it.bugbuster.asilapp.entity.VideoModel;
+import it.bugbuster.asilapp.refugee_shelter.RefugeeShelterFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -88,6 +88,14 @@ public class InformationFragment extends Fragment {
         videoViewPager = view.findViewById(R.id.videoViewPager);
         videoList = new ArrayList<>();
         tabLayout = view.findViewById(R.id.tabLayout);
+        Button button = view.findViewById(R.id.button2);
+
+        button.setOnClickListener(view1 -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new RefugeeShelterFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -96,8 +104,6 @@ public class InformationFragment extends Fragment {
                 getString(R.string.prevention_and_lifestyle),
                 getString(R.string.purchase_of_drugs)
         };
-
-
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
         String typeUser = sharedPreferences.getString("typeUser", null);

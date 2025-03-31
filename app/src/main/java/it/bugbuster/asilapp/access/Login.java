@@ -21,6 +21,7 @@ import androidx.core.splashscreen.SplashScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,7 +45,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        //FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -279,7 +280,7 @@ public class Login extends AppCompatActivity {
                             String name = documentSnapshot.getString("name");
                             String surname = documentSnapshot.getString("surname");
                             String birthDate = documentSnapshot.getString("birthDate");
-
+                            String refugeeShelter = documentSnapshot.getString("refugeeShelter");
 
                             // Save data in SharedPreferences
                             editor.putString("name", name);
@@ -290,6 +291,7 @@ public class Login extends AppCompatActivity {
                             }
 
                             editor.putString("birthDate", birthDate);
+                            editor.putString("refugeeShelter", refugeeShelter);
                             editor.putString("typeUser", "asylum_seeker");
 
                             editor.apply();

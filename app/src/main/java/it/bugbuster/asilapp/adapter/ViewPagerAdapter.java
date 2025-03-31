@@ -1,4 +1,4 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.adapter;
 
 import android.os.Bundle;
 

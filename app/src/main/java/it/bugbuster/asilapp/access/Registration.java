@@ -3,17 +3,23 @@ package it.bugbuster.asilapp.access;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,23 +30,32 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import it.bugbuster.asilapp.entity.AsylumSeeker;
 import it.bugbuster.asilapp.entity.Doctor;
+import it.bugbuster.asilapp.entity.RefugeeShelter;
+import it.bugbuster.asilapp.refugee_shelter.RefugeeViewModel;
 import it.bugbuster.asilapp.service.MailSender;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.qrcode.QRCodeGeneration;
 import it.bugbuster.asilapp.utils.DatePickerUtils;
+import it.bugbuster.asilapp.utils.JsonUtils;
+import it.bugbuster.asilapp.utils.NetworkUtils;
+
 // TODO modificare la registrazione specializzando l'utente in Dottore e Richiedente asilo
 public class Registration extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    List<RefugeeShelter> localRefugeeShelters;
 
     private EditText nameField, surnameField, emailField, passwordField, confirmPasswordField, birthDateField;
-
+    private List<String> cities;
     private EditText refugeeShelterField, licenseNumberField;
     private TextInputLayout refugeeShelterLayout, licenseNumberLayout;
     private Button btnRegister;
@@ -49,13 +64,14 @@ public class Registration extends AppCompatActivity {
     private String typeUser;
 
     private MaterialDatePicker<Long> datePicker;
+    private String filename = "case_accoglienza.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        FirebaseApp.initializeApp(this);
+        //FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -73,6 +89,10 @@ public class Registration extends AppCompatActivity {
         radioTypeUser = findViewById(R.id.radio_type_user);
         datePicker = DatePickerUtils.setupDatePicker();
         typeUser = "asylum_seeker";
+        cities = getCities();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cities);
+        ((AutoCompleteTextView) Objects.requireNonNull(refugeeShelterLayout.getEditText())).setAdapter(adapter);
 
         datePicker.addOnPositiveButtonClickListener (selection ->  {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -152,18 +172,23 @@ public class Registration extends AppCompatActivity {
                             FirebaseUser fBuser = mAuth.getCurrentUser();
 
                             User user = null;
+                            SharedPreferences sharedPreferences = Registration.this.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
                             if (typeUser.equals("asylum_seeker")) {
                                 if (fBuser != null) {
+
+                                    editor.putString("refugeeShelter", refugeeShelter);
+                                    editor.putString("cityRefugee", refugeeShelter);
                                     user = new AsylumSeeker(fBuser.getUid(), name, surname, email, birthDate, refugeeShelter);
                                 }
-                                // TODO sistemare refugeeShelter
-
                             } else if (typeUser.equals("doctor")) {
                                 if (fBuser != null) {
+                                    editor.putString("licenseNumber", licenseNumber);
                                     user = new Doctor(fBuser.getUid(), name, surname, email, birthDate, licenseNumber);
                                 }
 
                             }
+                            editor.apply();
                             if (fBuser != null && user != null) {
                                 String credentials = "email:" + email + ";password:" + password;
                                 Bitmap qrCode = generateQRCode(credentials);
@@ -206,6 +231,7 @@ public class Registration extends AppCompatActivity {
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(Registration.this, R.string.saved_data, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, HomeAsylumSeeker.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     })
                     .addOnFailureListener(e -> Toast.makeText(Registration.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -214,10 +240,34 @@ public class Registration extends AppCompatActivity {
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(Registration.this, R.string.saved_data, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, HomeDoctor.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     })
                     .addOnFailureListener(e -> Toast.makeText(Registration.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
 
+    }
+
+    private List<String> getCities() {
+        List<String> cities = new ArrayList<>();
+        RefugeeViewModel refugeeViewModel = new RefugeeViewModel();
+        localRefugeeShelters = JsonUtils.parseRefugeeShelters(this, filename);
+        if (NetworkUtils.isNetworkAvailable(this)) {
+            refugeeViewModel.getRefugeeShelter(this, filename).observe(this, new Observer<List<RefugeeShelter>>() {
+                @Override
+                public void onChanged(List<RefugeeShelter> refugeeShelters) {
+                    localRefugeeShelters = refugeeShelters;
+                    for (RefugeeShelter refugeeShelter: localRefugeeShelters) {
+                        cities.add(refugeeShelter.getCity());
+                    }
+                }
+            });
+        } else {
+            for (RefugeeShelter refugeeShelter: localRefugeeShelters) {
+                cities.add(refugeeShelter.getCity());
+            }
+        }
+
+        return cities;
     }
 }

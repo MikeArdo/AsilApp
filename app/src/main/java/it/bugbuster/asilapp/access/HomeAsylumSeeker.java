@@ -11,11 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.FirebaseApp;
 
-import it.bugbuster.asilapp.InformationFragment;
+import it.bugbuster.asilapp.information.InformationFragment;
 import it.bugbuster.asilapp.TabsFragment;
-import it.bugbuster.asilapp.diseases.DiseasesListFragment;
-import it.bugbuster.asilapp.measurements.MedicalParametersFragment;
 import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
 import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.R;

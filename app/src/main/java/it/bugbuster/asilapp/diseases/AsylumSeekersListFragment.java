@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import it.bugbuster.asilapp.R;
-import it.bugbuster.asilapp.UserAdapter;
-import it.bugbuster.asilapp.diseases.AsylumSeekerDiseasesFragment;
+import it.bugbuster.asilapp.adapter.UserAdapter;
 import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.utils.AuthUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;

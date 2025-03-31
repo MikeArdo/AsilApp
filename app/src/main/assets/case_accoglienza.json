@@ -1,0 +1,180 @@
+{
+  "refugee_shelter": [
+    {
+      "id": "manfredonia",
+      "name": "L'Oasi di Manfredonia",
+      "city": "Manfredonia",
+      "image": "https://peranziani.it/wp-content/uploads/2020/10/Casa-di-riposo-Stella-Maris-Siponto-1024x514.png",
+      "description": {
+        "it": "Il Centro di Accoglienza 'L'Oasi di Manfredonia' si trova a pochi passi dal mare, immerso nella natura pugliese, in un'area tranquilla e sicura. Questo centro è dedicato all'accoglienza di rifugiati, richiedenti asilo e persone vulnerabili, offrendo supporto per l'integrazione nella comunità locale.",
+        "en": "The 'L'Oasi di Manfredonia' Reception Center is located a few steps from the sea, surrounded by the Apulian nature, in a quiet and safe area. This center is dedicated to the reception of refugees, asylum seekers, and vulnerable people, providing support for integration into the local community."
+      },
+      "rules": {
+        "it": [
+          "Gli ospiti devono rispettare la quiete e l'ordine del centro.",
+          "È vietato il consumo di alcolici o sostanze stupefacenti all'interno del centro.",
+          "Gli ospiti sono tenuti a partecipare alle attività di integrazione e formazione offerte dal centro.",
+          "L'accesso al centro è consentito solo previa registrazione e approvazione delle autorità competenti.",
+          "In caso di comportamenti violenti o problematici, l'ospite potrebbe essere trasferito in un altro centro."
+        ],
+        "en": [
+          "Guests must respect the peace and order of the center.",
+          "The consumption of alcohol or drugs inside the center is prohibited.",
+          "Guests are required to participate in the integration and training activities offered by the center.",
+          "Access to the center is only allowed with prior registration and approval by the competent authorities.",
+          "In case of violent or problematic behavior, the guest may be transferred to another center."
+        ]
+      },
+      "services": {
+        "it": [
+          "Alloggio: Camere singole e comuni, con letti, armadi e spazi condivisi.",
+          "Supporto psicologico: Servizi di consulenza per favorire il benessere psicologico degli ospiti.",
+          "Formazione linguistica: Corsi di italiano per facilitare l'integrazione.",
+          "Assistenza legale: Supporto per la gestione delle pratiche burocratiche e legali.",
+          "Attività sociali e culturali: Eventi e laboratori per l'integrazione culturale.",
+          "Servizio medico: Assistenza sanitaria di base."
+        ],
+        "en": [
+          "Accommodation: Single and shared rooms with beds, wardrobes, and shared spaces.",
+          "Psychological support: Counseling services to promote the well-being of guests.",
+          "Language training: Italian courses to facilitate integration.",
+          "Legal assistance: Support for managing bureaucratic and legal procedures.",
+          "Social and cultural activities: Events and workshops for cultural integration.",
+          "Medical service: Basic healthcare assistance."
+        ]
+      }
+    },
+    {
+      "id": "foggia",
+      "name": "Accoglienza Foggia",
+      "city": "Foggia",
+      "image": "https://www.foggiatoday.it/~media/horizontal-hi/31850735526602/gesu-e-maria-4.jpg",
+      "description": {
+        "it": "Il Centro di Accoglienza 'Accoglienza Foggia' è situato nella zona centrale della città di Foggia ed è strutturato per rispondere alle necessità di rifugiati, migranti e persone in stato di vulnerabilità.",
+        "en": "The 'Accoglienza Foggia' Reception Center is located in the central area of the city of Foggia and is designed to meet the needs of refugees, migrants, and vulnerable individuals."
+      },
+      "rules": {
+        "it": [
+          "Gli ospiti devono rispettare gli orari di ingresso e uscita dal centro.",
+          "È vietato danneggiare la struttura e le proprietà del centro.",
+          "Gli ospiti sono tenuti a mantenere comportamenti rispettosi nei confronti degli altri ospiti e del personale.",
+          "Il centro è un luogo di protezione: ogni ospite deve segnalare tempestivamente situazioni di emergenza o necessità.",
+          "È obbligatorio partecipare alle riunioni informativi settimanali."
+        ],
+        "en": [
+          "Guests must respect the center's check-in and check-out times.",
+          "It is prohibited to damage the center's structure and property.",
+          "Guests must maintain respectful behavior towards other guests and staff.",
+          "The center is a place of protection: every guest must promptly report emergency situations or needs.",
+          "It is mandatory to attend the weekly informational meetings."
+        ]
+      },
+      "services": {
+        "it": [
+          "Alloggio: Spazi comuni per dormire e stanze private per famiglie o persone vulnerabili.",
+          "Formazione professionale: Corsi di orientamento al lavoro e corsi pratici per acquisire competenze.",
+          "Assistenza sanitaria: Servizi medici generali e psicologici, con accesso a specialisti.",
+          "Servizi legali e amministrativi: Supporto per la richiesta di asilo e la gestione delle pratiche legali.",
+          "Pasti e distribuzione alimentare: Cibo nutriente e adatto a diverse esigenze culturali.",
+          "Programmi educativi: Laboratori educativi e di intrattenimento per bambini e adulti."
+        ],
+        "en": [
+          "Accommodation: Shared spaces for sleeping and private rooms for families or vulnerable individuals.",
+          "Professional training: Job orientation courses and practical skills courses.",
+          "Healthcare assistance: General and psychological medical services, with access to specialists.",
+          "Legal and administrative services: Support for asylum applications and managing legal procedures.",
+          "Meals and food distribution: Nutritious food suitable for different cultural needs.",
+          "Educational programs: Educational and recreational workshops for children and adults."
+        ]
+      }
+    },
+    {
+      "id": "bari",
+      "name": "Bari Accoglie",
+      "city": "Bari",
+      "image": "https://www.vita.it/wp-content/uploads/2024/02/villaggio-1.jpg",
+      "description": {
+        "it": "Il Centro 'Bari Accoglie' si trova nel cuore di Bari ed è uno dei principali centri per migranti e rifugiati in Puglia. La struttura è progettata per garantire un'accoglienza dignitosa.",
+        "en": "The 'Bari Accoglie' Reception Center is located in the heart of Bari and is one of the main centers for migrants and refugees in Puglia. The facility is designed to ensure a dignified reception."
+      },
+      "rules": {
+        "it": [
+          "Gli ospiti devono rispettare il regolamento interno e collaborare con il personale.",
+          "È vietato l’ingresso di persone non registrate e l’accesso alle aree non autorizzate.",
+          "Il centro promuove il rispetto delle diversità culturali e religiose.",
+          "Comportamenti violenti, razzisti o discriminatori sono inaccettabili e comportano il trasferimento immediato.",
+          "L’ospite deve partecipare alle attività di inclusione sociale e corsi di lingua."
+        ],
+        "en": [
+          "Guests must respect the internal rules and cooperate with staff.",
+          "It is prohibited to allow unregistered people to enter and access unauthorized areas.",
+          "The center promotes respect for cultural and religious diversity.",
+          "Violent, racist, or discriminatory behavior is unacceptable and will lead to immediate transfer.",
+          "Guests must participate in social inclusion activities and language courses."
+        ]
+      },
+      "services": {
+        "it": [
+          "Alloggio: Sistemazioni moderne, con stanze singole e comuni, in ambienti sicuri e puliti.",
+          "Assistenza psicologica: Supporto psicoterapeutico per la gestione di traumi e stress.",
+          "Orientamento al lavoro: Servizi di orientamento professionale, job placement e corsi di formazione.",
+          "Corsi di italiano: Lezioni per migliorare la conoscenza della lingua italiana.",
+          "Supporto educativo: Attività per bambini, adulti e anziani.",
+          "Supporto alimentare e sanitario: Pasti quotidiani e assistenza sanitaria."
+        ],
+        "en": [
+          "Accommodation: Modern accommodations, with single and shared rooms in safe and clean environments.",
+          "Psychological assistance: Psychotherapeutic support for managing trauma and stress.",
+          "Job orientation: Professional orientation services, job placement, and training courses.",
+          "Italian courses: Lessons to improve knowledge of the Italian language.",
+          "Educational support: Activities for children, adults, and seniors.",
+          "Food and healthcare support: Daily meals and healthcare assistance."
+        ]
+      }
+    },
+    {
+      "id": "taranto",
+      "name": "Taranto Insieme",
+      "city": "Taranto",
+      "image": "https://noievoi.net/wp-content/uploads/2022/01/2011-03-10-08.07.48-1.jpg",
+      "description": {
+        "it": "Il Centro di Accoglienza 'Taranto Insieme' si trova nella città portuale di Taranto, ed è orientato a garantire una protezione integrata.",
+        "en": "The 'Taranto Insieme' Reception Center is located in the port city of Taranto and is aimed at providing integrated protection."
+      },
+      "rules": {
+        "it": [
+          "Gli ospiti sono tenuti a rispettare le norme di convivenza e a partecipare attivamente alla vita del centro.",
+          "Non è consentito l’ingresso di persone non registrate.",
+          "È vietato il consumo di alcol e sostanze stupefacenti nelle aree comuni.",
+          "In caso di gravi violazioni del regolamento, l'ospite potrà essere trasferito o escluso dal centro.",
+          "Gli ospiti devono mantenere la pulizia e l'ordine delle loro aree e spazi comuni."
+        ],
+        "en": [
+          "Guests must respect the rules of coexistence and actively participate in the life of the center.",
+          "Unregistered individuals are not allowed to enter.",
+          "The consumption of alcohol and drugs is prohibited in common areas.",
+          "In case of serious violations of the rules, the guest may be transferred or excluded from the center.",
+          "Guests must maintain cleanliness and order in their areas and common spaces."
+        ]
+      },
+      "services": {
+        "it": [
+          "Alloggio: Camere condivise e private con spazi comuni.",
+          "Assistenza sanitaria: Servizi di pronto soccorso e assistenza medica continuativa.",
+          "Orientamento legale: Aiuto nella gestione delle pratiche per il riconoscimento dello status di rifugiato.",
+          "Supporto psicologico: Interventi per aiutare gli ospiti a superare difficoltà emotive.",
+          "Corsi di formazione linguistica e culturale: Corsi di italiano e attività culturali.",
+          "Sostegno all'inserimento lavorativo: Servizi di orientamento al lavoro."
+        ],
+        "en": [
+          "Accommodation: Shared and private rooms with common spaces.",
+          "Healthcare assistance: Emergency services and ongoing medical support.",
+          "Legal orientation: Assistance with managing refugee status applications.",
+          "Psychological support: Interventions to help guests overcome emotional difficulties.",
+          "Language and cultural training: Italian courses and cultural activities.",
+          "Employment integration support: Job orientation services."
+        ]
+      }
+    }
+  ]
+}

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import it.bugbuster.asilapp.utils.NavigationUtil;
+import it.bugbuster.asilapp.adapter.ViewPagerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -81,27 +81,6 @@ public class TabsFragment extends Fragment {
                 tab.setText(tabNames[position]);
             }
         }).attach();
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(@NonNull TabLayout.Tab tab) {
-                int selectedTabPosition = tab.getPosition();
-
-                if (selectedTabPosition == 1) {
-                    //
-                }
-            }
-
-            @Override
-            public void onTabUnselected(@NonNull TabLayout.Tab tab) {
-                // This is called when a tab is unselected
-            }
-
-            @Override
-            public void onTabReselected(@NonNull TabLayout.Tab tab) {
-                // This is called when the selected tab is reselected (tapped again)
-            }
-        });
 
         return view;
     }

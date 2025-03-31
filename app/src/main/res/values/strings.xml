@@ -105,4 +105,8 @@
     <string name="nutritional_tips">Nutritional tips</string>
     <string name="prevention_and_lifestyle">Prevention and lifestyle</string>
     <string name="purchase_of_drugs">Purchase of drugs</string>
+    <string name="rules">Rules</string>
+    <string name="close">Close</string>
+    <string name="services">Services</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
