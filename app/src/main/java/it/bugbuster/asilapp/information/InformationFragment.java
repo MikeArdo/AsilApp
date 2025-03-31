@@ -21,6 +21,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.bugbuster.asilapp.MapsFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.adapter.VideoAdapter;
 import it.bugbuster.asilapp.entity.VideoModel;
@@ -89,10 +90,18 @@ public class InformationFragment extends Fragment {
         videoList = new ArrayList<>();
         tabLayout = view.findViewById(R.id.tabLayout);
         Button button = view.findViewById(R.id.button2);
+        Button btmMap = view.findViewById(R.id.button3);
 
         button.setOnClickListener(view1 -> {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new RefugeeShelterFragment())
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        btmMap.setOnClickListener(view1 -> {
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new MapsFragment())
                     .addToBackStack(null)
                     .commit();
         });
