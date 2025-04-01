@@ -109,4 +109,7 @@
     <string name="close">Close</string>
     <string name="services">Services</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="location_permission_title">Request location permission</string>
+    <string name="location_permission_description">The app requires access to your location to show nearby activities and points of interest. Without this permission, it will not be possible to show your current location. However, it will show activities and points of interest near the shelter where you live.</string>
+    <string name="location_permission_denied">Location permission denied</string>
 </resources>

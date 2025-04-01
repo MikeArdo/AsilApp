@@ -108,4 +108,7 @@
     <string name="rules">Regole</string>
     <string name="close">Chiudi</string>
     <string name="services">Servizi</string>
+    <string name="location_permission_title">Richiesta permesso posizione</string>
+    <string name="location_permission_description">L\'app richiede l\'accesso alla posizione per mostrare le attività e i punti di interesse nelle vicinanze. Senza questo permesso, non sarà possibile mostrare la posizione attuale. Tuttavia, verranno mostrate le attività e i punti di interesse nei paraggi della casa di accoglienza dove si risiede.</string>
+    <string name="location_permission_denied">Autorizzazione posizione negata</string>
 </resources>
