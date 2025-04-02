@@ -111,4 +111,24 @@
     <string name="location_permission_title">Richiesta permesso posizione</string>
     <string name="location_permission_description">L\'app richiede l\'accesso alla posizione per mostrare le attività e i punti di interesse nelle vicinanze. Senza questo permesso, non sarà possibile mostrare la posizione attuale. Tuttavia, verranno mostrate le attività e i punti di interesse nei paraggi della casa di accoglienza dove si risiede.</string>
     <string name="location_permission_denied">Autorizzazione posizione negata</string>
+    <string name="average">Media: %1.1f</string>
+    <string name="send">Invia</string>
+
+    <string name="asylum_info_title">Informazioni per Richiedenti Asilo</string>
+    <string name="asylum_info_message">
+        📂 Documenti Essenziali:\n
+        1. Documento d\'identità / Passaporto\n
+        2. Modulo di richiesta asilo\n
+        3. Permesso di soggiorno temporaneo\n\n
+        ☎️ Contatti Utili:\n
+        1. Commissione Territoriale per Asilo\n
+        2. Questura - Ufficio Immigrazione\n
+        3. Associazioni di Supporto\n
+    </string>
+    <string name="identity_document">Documento d\'identità / Passaporto</string>
+    <string name="asylum_form">Modulo di richiesta asilo</string>
+    <string name="temporary_residence">Permesso di soggiorno temporaneo</string>
+    <string name="commission_territorial">Commissione Territoriale per Asilo</string>
+    <string name="immigration_office">Questura - Ufficio Immigrazione</string>
+    <string name="support_associations">Associazioni di Supporto</string>
 </resources>

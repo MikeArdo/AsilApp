@@ -19,6 +19,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -64,6 +66,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -76,16 +79,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private PlacesClient placesClient;
     String apiKey = BuildConfig.MAPS_API_KEY;
-
     private boolean locationPermissionGranted = false;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private static final int DEFAULT_ZOOM = 15;
+    private static final int DEFAULT_ZOOM = 14;
     private final LatLng defaultLocation = new LatLng(41.1097315, 16.8800639);
-
-    private static final int MAX_RETRIES = 3;
-    private static final long RETRY_DELAY = 4000;
-    private int retryCount = 0;
-
+    private String cityRefugeeShelter;
     private Location lastKnownLocation;
 
     public MapsFragment() {
@@ -97,12 +95,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        retryCount = 0;
     }
 
     @Override
@@ -123,8 +115,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
-        String cityRefugeeShelter = sharedPreferences.getString("refugeeShelter", null);
-        retryCount = 0;
+        cityRefugeeShelter = sharedPreferences.getString("refugeeShelter", null);
 
         return view;
     }
@@ -133,8 +124,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.moveCamera(CameraUpdateFactory
-                .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+        LatLng cityLatLng = getLocationFromCityName(cityRefugeeShelter);
+        if (cityLatLng != null) {
+            mMap.moveCamera(CameraUpdateFactory
+                    .newLatLngZoom(cityLatLng, DEFAULT_ZOOM));
+            fetchNearbyPlaces(cityLatLng.latitude, cityLatLng.longitude);
+        } else {
+            mMap.moveCamera(CameraUpdateFactory
+                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+            fetchNearbyPlaces(defaultLocation.latitude, defaultLocation.longitude);
+        }
+
+        mMap.setOnMyLocationButtonClickListener(() -> {
+            promptEnableGPS();
+            return false;
+        });
+
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         getLocationPermission();
@@ -142,6 +147,21 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         updateLocationUI();
 
         getDeviceLocation();
+    }
+
+    private LatLng getLocationFromCityName(String cityName) {
+        Geocoder geocoder = new Geocoder(requireContext());
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocationName(cityName, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address location = addresses.get(0);
+                return new LatLng(location.getLatitude(), location.getLongitude());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void updateLocationUI() {
@@ -156,12 +176,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 lastKnownLocation = null;
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
+
 
     private void getDeviceLocation() {
         try {
@@ -172,37 +193,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
                             lastKnownLocation = task.getResult();
-                            if (lastKnownLocation != null) {
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(lastKnownLocation.getLatitude(),
-                                                lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                                fetchNearbyPlaces(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                            } else {
+                            if (lastKnownLocation == null) {
                                 promptEnableGPS();
                             }
-                        } else {
-                            mMap.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
                     }
                 });
             }
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage(), e);
-        }
-    }
-
-    private void retryLocationFetch() {
-        if (retryCount < MAX_RETRIES) {
-            retryCount++;
-            new Handler().postDelayed(this::getDeviceLocation, RETRY_DELAY);
-            Log.d(TAG, String.valueOf(retryCount));
-        } else {
-            Log.d(TAG, "Numero massimo di tentativi raggiunto. Uso la posizione di default.");
-            mMap.moveCamera(CameraUpdateFactory
-                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
-            mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
     }
 
@@ -271,6 +270,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    private final ActivityResultLauncher<IntentSenderRequest> requestGpsResult =
+            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    updateLocationUI();
+                }
+            });
+
     public void fetchNearbyPlaces(double latitude, double longitude) {
         // Define a list of fields to include in the response for each returned place.
         final List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.PRIMARY_TYPE);
@@ -329,19 +335,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private final ActivityResultLauncher<IntentSenderRequest> requestGpsResult =
-            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    updateLocationUI();
-                    if (locationPermissionGranted) {
-                        retryLocationFetch();
-                    }
-                } else {
-                    mMap.moveCamera(CameraUpdateFactory
-                            .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
-                    mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                }
-            });
+
 
     private final ActivityResultLauncher<String[]> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {

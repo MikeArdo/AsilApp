@@ -1,5 +1,7 @@
 package it.bugbuster.asilapp.access;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -10,10 +12,12 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import it.bugbuster.asilapp.ReviewAppDialog;
 import it.bugbuster.asilapp.information.InformationFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.diseases.AsylumSeekersListFragment;
 import it.bugbuster.asilapp.profile.ProfileFragment;
+import it.bugbuster.asilapp.utils.AuthUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
 
@@ -25,6 +29,10 @@ public class HomeDoctor extends AppCompatActivity {
         setContentView(R.layout.activity_home_doctor);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
+        String userId = AuthUtils.getCurrentUserId();
+        int launchCount = sharedPreferences.getInt("launch_count_" + userId, 0);
+        boolean dontAskAgain = sharedPreferences.getBoolean("dont_ask_again_" + userId, false);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -34,6 +42,15 @@ public class HomeDoctor extends AppCompatActivity {
                     .replace(R.id.fragment_container, new AsylumSeekersListFragment())
                     .commit();
         }
+
+        if (launchCount >= 1 && !dontAskAgain) {
+            ReviewAppDialog reviewAppDialog = new ReviewAppDialog(this);
+            reviewAppDialog.showDialog();
+        }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("launch_count_" + userId, launchCount + 1);
+        editor.apply();
 
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;

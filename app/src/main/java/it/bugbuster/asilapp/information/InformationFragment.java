@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.viewpager2.widget.ViewPager2;
@@ -12,15 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.bugbuster.asilapp.DocumentAndContactDialog;
 import it.bugbuster.asilapp.MapsFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.adapter.VideoAdapter;
@@ -39,6 +44,7 @@ public class InformationFragment extends Fragment {
     private VideoAdapter videoAdapter;
     private List<VideoModel> videoList;
     private TabLayout tabLayout;
+
     private int previousPosition = -1;
 
 
@@ -89,21 +95,30 @@ public class InformationFragment extends Fragment {
         videoViewPager = view.findViewById(R.id.videoViewPager);
         videoList = new ArrayList<>();
         tabLayout = view.findViewById(R.id.tabLayout);
-        Button button = view.findViewById(R.id.button2);
-        Button btmMap = view.findViewById(R.id.button3);
+        CardView cardShelter = view.findViewById(R.id.cardShelter);
+        CardView cardMap = view.findViewById(R.id.cardMaps);
+        CardView cardDocument = view.findViewById(R.id.cardDocument);
 
-        button.setOnClickListener(view1 -> {
+        cardShelter.setOnClickListener(view1 -> {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new RefugeeShelterFragment())
                     .addToBackStack(null)
                     .commit();
         });
 
-        btmMap.setOnClickListener(view1 -> {
+        cardMap.setOnClickListener(view1 -> {
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new MapsFragment())
                     .addToBackStack(null)
                     .commit();
+        });
+
+        cardDocument.setOnClickListener(view1 -> {
+            exoPlayer = videoAdapter.getExoPlayerAtPosition(previousPosition);
+            if (exoPlayer != null) {
+                exoPlayer.pause();
+            }
+            DocumentAndContactDialog.showAsylumInfoDialog(requireContext());
         });
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -175,14 +190,7 @@ public class InformationFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        exoPlayer = videoAdapter.getExoPlayerAtPosition(previousPosition);
-        if (exoPlayer != null) {
-            exoPlayer.play();
-        }
-    }
+
 
     @Override
     public void onDestroyView() {
@@ -193,5 +201,4 @@ public class InformationFragment extends Fragment {
             exoPlayer = null;
         }
     }
-
 }

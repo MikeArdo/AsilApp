@@ -112,4 +112,24 @@
     <string name="location_permission_title">Request location permission</string>
     <string name="location_permission_description">The app requires access to your location to show nearby activities and points of interest. Without this permission, it will not be possible to show your current location. However, it will show activities and points of interest near the shelter where you live.</string>
     <string name="location_permission_denied">Location permission denied</string>
+    <string name="average">Average: %1.1f</string>
+    <string name="send">Send</string>
+
+    <string name="asylum_info_title">Information for Asylum Seekers</string>
+    <string name="asylum_info_message">
+        📂 Essential Documents:\n
+        1. Identity Document / Passport\n
+        2. Asylum Request Form\n
+        3. Temporary Residence Permit\n\n
+        ☎️ Useful Contacts:\n
+        1. Territorial Commission for Asylum\n
+        2. Immigration Office - Police Headquarters\n
+        3. Support Associations
+    </string>
+    <string name="identity_document">Identity Document / Passport</string>
+    <string name="asylum_form">Asylum Request Form</string>
+    <string name="temporary_residence">Temporary Residence Permit</string>
+    <string name="commission_territorial">Territorial Commission for Asylum</string>
+    <string name="immigration_office">Immigration Office - Police Headquarters</string>
+    <string name="support_associations">Support Associations</string>
 </resources>

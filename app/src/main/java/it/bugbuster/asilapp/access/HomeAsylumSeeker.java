@@ -1,5 +1,7 @@
 package it.bugbuster.asilapp.access;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,20 +13,23 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import it.bugbuster.asilapp.ReviewAppDialog;
 import it.bugbuster.asilapp.information.InformationFragment;
 import it.bugbuster.asilapp.TabsFragment;
 import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
 import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.expenses.ExpenseListFragment;
+import it.bugbuster.asilapp.utils.AuthUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
 
 public class HomeAsylumSeeker extends AppCompatActivity {
     private FloatingActionButton fab;
     private SensorManager mSensorManager;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +38,13 @@ public class HomeAsylumSeeker extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         fab = findViewById(R.id.floating_action_button);
-
-
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        db = FirebaseFirestore.getInstance();
 
+        SharedPreferences sharedPreferences = this.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
+        String userId = AuthUtils.getCurrentUserId();
+        int launchCount = sharedPreferences.getInt("launch_count_" + userId, 0);
+        boolean dontAskAgain = sharedPreferences.getBoolean("dont_ask_again_" + userId, false);
 
         if (savedInstanceState == null) {
             NavigationUtil.showHomeButton(this);
@@ -44,6 +52,15 @@ public class HomeAsylumSeeker extends AppCompatActivity {
                     .replace(R.id.fragment_container, new TabsFragment())
                     .commit();
         }
+
+        if (launchCount >= 1 && !dontAskAgain) {
+            ReviewAppDialog reviewAppDialog = new ReviewAppDialog(this);
+            reviewAppDialog.showDialog();
+        }
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("launch_count_" + userId, launchCount + 1);
+        editor.apply();
 
         fab.setOnClickListener(view -> {
             MyBottomSheetDialogFragment bottomSheet = new MyBottomSheetDialogFragment();
@@ -108,10 +125,6 @@ public class HomeAsylumSeeker extends AppCompatActivity {
 
 
     }
-
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

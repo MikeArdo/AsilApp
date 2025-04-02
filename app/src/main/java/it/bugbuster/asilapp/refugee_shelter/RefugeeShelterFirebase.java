@@ -35,6 +35,7 @@ public class RefugeeShelterFirebase {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<RefugeeShelter> localShelters = JsonUtils.parseRefugeeShelters(context, filename);
                         if (task.isSuccessful()) {
                             List<RefugeeShelter> firestoreShelters = new ArrayList<>();
                             for (DocumentSnapshot document : task.getResult()) {
@@ -42,21 +43,23 @@ public class RefugeeShelterFirebase {
                                 firestoreShelters.add(shelter);
                             }
 
-                            List<RefugeeShelter> localShelters = JsonUtils.parseRefugeeShelters(context, filename);
-                            if (localShelters != null) {
+
+                            if (!firestoreShelters.isEmpty()) {
                                 if (!firestoreShelters.equals(localShelters)) {
                                     Log.d("Firestore Update", "I dati di Firestore sono aggiornati. Sovrascrivendo i dati locali.");
                                     JsonUtils.overwriteLocalData(context, firestoreShelters, filename);
+                                    liveData.setValue(firestoreShelters);
                                 } else {
                                     Log.d("Firestore Update", "I dati locali sono già aggiornati.");
+                                    liveData.setValue(localShelters);
                                 }
                             } else {
                                 Log.d("Firestore Update", "Nessun dato locale trovato, usando i dati di Firestore.");
-                                JsonUtils.overwriteLocalData(context, firestoreShelters, filename);
+                                liveData.setValue(localShelters);
                             }
-                            liveData.setValue(firestoreShelters);
                         } else {
                             Log.d("Firestore Error", "Errore nel recupero dei dati");
+                            liveData.setValue(localShelters);
                         }
                     }
                 });
