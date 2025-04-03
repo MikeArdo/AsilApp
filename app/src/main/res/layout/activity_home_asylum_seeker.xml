@@ -11,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        app:titleCentered="true"
-        app:title="@string/app_name"
-        app:navigationIconTint="@android:color/white"
-        style="@style/GlobalToolbar"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:titleCentered="true"
+            app:title="@string/app_name"
+            app:navigationIconTint="@android:color/white"
+            style="@style/GlobalToolbar"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

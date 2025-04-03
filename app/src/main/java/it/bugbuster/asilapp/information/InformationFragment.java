@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.google.android.material.tabs.TabLayout;
@@ -31,6 +32,7 @@ import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.adapter.VideoAdapter;
 import it.bugbuster.asilapp.entity.VideoModel;
 import it.bugbuster.asilapp.refugee_shelter.RefugeeShelterFragment;
+import it.bugbuster.asilapp.utils.NavigationUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,6 +100,18 @@ public class InformationFragment extends Fragment {
         CardView cardShelter = view.findViewById(R.id.cardShelter);
         CardView cardMap = view.findViewById(R.id.cardMaps);
         CardView cardDocument = view.findViewById(R.id.cardDocument);
+        LinearLayout infoAsylumSeeker = view.findViewById(R.id.infoAsylumSeeker);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
+        String typeUser = sharedPreferences.getString("typeUser", null);
+        NavigationUtil.showBackButton(this);
+
+        if (typeUser != null) {
+            if (typeUser.equals("asylum_seeker")) {
+                infoAsylumSeeker.setVisibility(View.VISIBLE);
+            } else if (typeUser.equals("doctor")) {
+                infoAsylumSeeker.setVisibility(View.GONE);
+            }
+        }
 
         cardShelter.setOnClickListener(view1 -> {
             getParentFragmentManager().beginTransaction()
@@ -129,8 +143,7 @@ public class InformationFragment extends Fragment {
                 getString(R.string.purchase_of_drugs)
         };
 
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
-        String typeUser = sharedPreferences.getString("typeUser", null);
+
         String videoTable = null;
         if (typeUser != null) {
             if (typeUser.equals("asylum_seeker")) {

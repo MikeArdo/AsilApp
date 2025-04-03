@@ -25,7 +25,7 @@
     <string name="welcome_message">Benvenuto %1$s %2$s, \nGrazie per esserti registrato!
         La password per il contenitore biomedicale è: password</string>
     <string name="error_qrcode">Errore generazione codice QR</string>
-    <string name="login_qrcode">Accedi con codice QR</string>
+    <string name="login_qrcode">Accedi con\ncodice QR</string>
     <string name="scan_from_gallery">Scannerizza dalla galleria</string>
     <string name="scan_qr_code">Scannerizza codice QR</string>
     <string name="error_decode_qrcode">Lettura codice QR fallita</string>

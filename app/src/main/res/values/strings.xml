@@ -24,7 +24,7 @@
     <string name="welcome_message">Welcome %1$s %2$s, \nThank you for registering!
         The password for the biomedical container is: password</string>
     <string name="error_qrcode">Error generating QR Code</string>
-    <string name="login_qrcode">Login with QR code</string>
+    <string name="login_qrcode">Login with\nQR code</string>
     <string name="scan_from_gallery">Scan from Gallery</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="error_decode_qrcode">Failed to decode QR Code</string>

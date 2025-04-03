@@ -57,7 +57,7 @@ public class CustomCaptureActivity extends AppCompatActivity {
         Button galleryButton = new Button(this);
         galleryButton.setText(R.string.scan_from_gallery);
         galleryButton.setPadding(20, 20, 20, 20);
-        galleryButton.setBackgroundColor(getResources().getColor(R.color.primaryColor, getTheme()));
+        galleryButton.setBackgroundColor(getResources().getColor(R.color.md_theme_primary, getTheme()));
         galleryButton.setTextColor(0xFFFFFFFF);
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(

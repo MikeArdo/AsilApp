@@ -64,7 +64,7 @@ public class DiseasesListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         NavigationUtil.showBackButton(this);
-
+/*
         callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -79,9 +79,16 @@ public class DiseasesListFragment extends Fragment {
         };
         Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
         if (currentFragment instanceof TabsFragment) {
-            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+            View parentView = requireView().getRootView();
+            TabLayout tabLayout = parentView.findViewById(R.id.tabLayout);
+            if (tabLayout.getSelectedTabPosition() == 1) {
+                requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+            }
         }
+
+ */
     }
+
 
     @Nullable
     @Override

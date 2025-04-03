@@ -29,7 +29,7 @@ public class UserAvatarUtil {
         Canvas canvas = new Canvas(bitmap);
 
         Paint paint = new Paint();
-        paint.setColor(Color.parseColor("#FFC107"));
+        paint.setColor(Color.parseColor("#82d5c8"));
         canvas.drawCircle(size / 2, size / 2, size / 2, paint);
 
         paint.setColor(Color.WHITE);

@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
     tools:context=".information.InformationFragment">
 
 
@@ -30,6 +32,7 @@
         app:tabIndicatorHeight="0dp"/>
 
     <LinearLayout
+        android:id="@+id/infoAsylumSeeker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -41,9 +44,9 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardShelter"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_margin="8dp"
+            android:layout_height="150dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/md_theme_surfaceContainer"
             android:clickable="true">
 
             <LinearLayout
@@ -57,6 +60,12 @@
                     android:gravity="center"
                     android:text="Casa accoglienza"
                     android:textAlignment="center"
+                    android:padding="4dp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="11sp"
+                    android:autoSizeMaxTextSize="100sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:textColor="@color/md_theme_onSurface"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 
                 <ImageView
@@ -71,9 +80,12 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardMaps"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_margin="8dp"
+            android:layout_height="150dp"
+            android:padding="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/md_theme_surfaceContainer"
             android:clickable="true">
 
             <LinearLayout
@@ -83,16 +95,18 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:gravity="center"
+                    android:padding="4dp"
                     android:text="Mappa"
                     android:textAlignment="center"
-                    android:textAppearance="?attr/textAppearanceTitleMedium" />
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="@color/md_theme_onSurface" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/maps" />
+                    app:srcCompat="@drawable/maps2" />
 
             </LinearLayout>
 
@@ -101,9 +115,10 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardDocument"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_margin="8dp"
+            android:layout_height="150dp"
+            android:padding="4dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/md_theme_surfaceContainer"
             android:clickable="true">
 
             <LinearLayout
@@ -116,7 +131,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Documenti e contatti"
+                    android:padding="4dp"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="11sp"
+                    android:autoSizeMaxTextSize="100sp"
+                    android:autoSizeStepGranularity="2sp"
                     android:textAlignment="center"
+                    android:textColor="@color/md_theme_onSurface"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 
                 <ImageView

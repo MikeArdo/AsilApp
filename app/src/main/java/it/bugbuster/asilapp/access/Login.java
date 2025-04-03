@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST = 100;
     private FirebaseAuth mAuth;
     private EditText emailField, passwordField;
-    private Button btnRegister, btnLogin, btnLoginQRCode;
+    private Button btnRegister, btnLogin, btnLoginQRCode, demoAsylumSeeker, demoDoctor;
     private ExpensesDatabase expensesDatabase;
 
     @Override
@@ -83,7 +83,17 @@ public class Login extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin = findViewById(R.id.btnLogin);
         btnLoginQRCode = findViewById(R.id.btnLoginQRCode);
+        demoAsylumSeeker = findViewById(R.id.demoAsylumSeeker);
+        demoDoctor = findViewById(R.id.demoDoctor);
         expensesDatabase = new ExpensesDatabase(this);
+
+        demoAsylumSeeker.setOnClickListener(view -> {
+            login("michele.pio2000@gmail.com", "Password123");
+        });
+
+        demoDoctor.setOnClickListener(view -> {
+            login("prova@gmail.com", "Prova123");
+        });
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override

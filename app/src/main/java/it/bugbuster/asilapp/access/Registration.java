@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -90,6 +92,14 @@ public class Registration extends AppCompatActivity {
         datePicker = DatePickerUtils.setupDatePicker();
         typeUser = "asylum_seeker";
         cities = getCities();
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("");
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cities);
         ((AutoCompleteTextView) Objects.requireNonNull(refugeeShelterLayout.getEditText())).setAdapter(adapter);
@@ -269,5 +279,14 @@ public class Registration extends AppCompatActivity {
         }
 
         return cities;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // Close the current activity and go back
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
