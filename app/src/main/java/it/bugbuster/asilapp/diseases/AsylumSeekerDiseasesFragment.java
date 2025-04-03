@@ -1,10 +1,13 @@
 package it.bugbuster.asilapp.diseases;
 
+import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -68,9 +71,11 @@ public class AsylumSeekerDiseasesFragment extends Fragment {
             UserAvatarUtil.setUserAvatar(name, surname, itemAvatar);
         }
 
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container_diseases, DiseasesListFragment.newInstance(user));
-        transaction.commit();
+        Fragment fragment = DiseasesListFragment.newInstance(user);
+        setFragmentAnimation(fragment);
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container_diseases, fragment)
+                .commit();
 
         getChildFragmentManager().registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
 
@@ -92,8 +97,10 @@ public class AsylumSeekerDiseasesFragment extends Fragment {
         }, true);
 
         button.setOnClickListener(v -> {
+            Fragment diseaseFragment = AddDiseaseFragment.newInstance(user);
+            setFragmentAnimation(diseaseFragment);
             getChildFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container_diseases, AddDiseaseFragment.newInstance(user))
+                .replace(R.id.fragment_container_diseases, diseaseFragment)
                 .addToBackStack(null)
                 .commit();
         });
@@ -104,6 +111,8 @@ public class AsylumSeekerDiseasesFragment extends Fragment {
 
         return view;
     }
+
+
 
 
 

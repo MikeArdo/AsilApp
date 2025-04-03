@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -40,6 +41,14 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Profilo");
+        }
     }
 
     @Nullable

@@ -1,6 +1,7 @@
 package it.bugbuster.asilapp.access;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -21,7 +23,6 @@ import androidx.core.splashscreen.SplashScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,10 +30,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
-import it.bugbuster.asilapp.database.ExpensesDatabase;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.qrcode.CustomCaptureActivity;
 import it.bugbuster.asilapp.utils.AuthUtils;
+import it.bugbuster.asilapp.utils.SharedPreferencesUtils;
 
 
 public class Login extends AppCompatActivity {
@@ -40,20 +41,20 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText emailField, passwordField;
     private Button btnRegister, btnLogin, btnLoginQRCode, demoAsylumSeeker, demoDoctor;
-    private ExpensesDatabase expensesDatabase;
+    private LinearLayout loadingOverlay;
 
     @Override
     protected void onStart() {
         super.onStart();
-        //FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String currentUser = AuthUtils.getCurrentUserId();
         if (currentUser != null) {
             SharedPreferences sharedPreferences = this.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
             String typeUser = sharedPreferences.getString("typeUser", null);
             if (typeUser != null) {
-                saveToSharedPreferences(this);
+                //saveToSharedPreferences(this);
+                SharedPreferencesUtils.saveToSharedPreferences(this);
                 Intent intent = null;
 
                 if (typeUser.equals("asylum_seeker")) {
@@ -85,7 +86,7 @@ public class Login extends AppCompatActivity {
         btnLoginQRCode = findViewById(R.id.btnLoginQRCode);
         demoAsylumSeeker = findViewById(R.id.demoAsylumSeeker);
         demoDoctor = findViewById(R.id.demoDoctor);
-        expensesDatabase = new ExpensesDatabase(this);
+        loadingOverlay = findViewById(R.id.loadingOverlay);
 
         demoAsylumSeeker.setOnClickListener(view -> {
             login("michele.pio2000@gmail.com", "Password123");
@@ -100,12 +101,14 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Registration.class);
                 startActivity(intent);
+                //overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
             }
         });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 loginText();
             }
         });
@@ -155,6 +158,7 @@ public class Login extends AppCompatActivity {
             return;
         }
 
+        loadingOverlay.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -167,8 +171,10 @@ public class Login extends AppCompatActivity {
                                 String userId = user.getUid();
                                 db.collection("users").document(userId).get()
                                         .addOnSuccessListener(document -> {
+
                                             if (document.exists()) {
-                                                saveToSharedPreferences(Login.this);
+                                                //saveToSharedPreferences(this);
+                                                SharedPreferencesUtils.saveToSharedPreferences(Login.this);
                                                 Toast.makeText(Login.this, R.string.signin_done, Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(Login.this, HomeAsylumSeeker.class);
                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -178,7 +184,8 @@ public class Login extends AppCompatActivity {
                                                 db.collection("doctors").document(userId).get()
                                                         .addOnSuccessListener(documentDoctor -> {
                                                             if (documentDoctor.exists()) {
-                                                                saveToSharedPreferences(Login.this);
+                                                                //saveToSharedPreferences(this);
+                                                                SharedPreferencesUtils.saveToSharedPreferences(Login.this);
                                                                 Toast.makeText(Login.this, R.string.signin_done, Toast.LENGTH_SHORT).show();
                                                                 Intent intent = new Intent(Login.this, HomeDoctor.class);
                                                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -199,6 +206,7 @@ public class Login extends AppCompatActivity {
                         } else {
                             Toast.makeText(Login.this, getString(R.string.signin_failed) + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                        loadingOverlay.setVisibility(View.GONE);
                     }
                 });
     }
@@ -269,72 +277,6 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(this, getString(R.string.camera_permission),
                         Toast.LENGTH_LONG).show();
             }
-        }
-    }
-
-    public void saveToSharedPreferences(Context context) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        SharedPreferences sharedPreferences = context.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String userId = AuthUtils.getCurrentUserId();
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-
-
-
-        if (userId != null) {
-            db.collection("users").document(userId)
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            String name = documentSnapshot.getString("name");
-                            String surname = documentSnapshot.getString("surname");
-                            String birthDate = documentSnapshot.getString("birthDate");
-                            String refugeeShelter = documentSnapshot.getString("refugeeShelter");
-
-                            // Save data in SharedPreferences
-                            editor.putString("name", name);
-                            editor.putString("surname", surname);
-                            if (user != null) {
-                                String email = user.getEmail();
-                                editor.putString("email", email);
-                            }
-
-                            editor.putString("birthDate", birthDate);
-                            editor.putString("refugeeShelter", refugeeShelter);
-                            editor.putString("typeUser", "asylum_seeker");
-
-                            editor.apply();
-
-                        } else {
-                            db.collection("doctors").document(userId)
-                                    .get()
-                                    .addOnSuccessListener(documentDoctor -> {
-                                        if (documentDoctor.exists()) {
-                                            String name = documentDoctor.getString("name");
-                                            String surname = documentDoctor.getString("surname");
-                                            String birthDate = documentDoctor.getString("birthDate");
-                                            String licenseNumber = documentDoctor.getString("licenseNumber");
-
-
-                                            // Save data in SharedPreferences
-                                            editor.putString("name", name);
-                                            editor.putString("surname", surname);
-                                            if (user != null) {
-                                                String email = user.getEmail();
-                                                editor.putString("email", email);
-                                            }
-
-                                            editor.putString("birthDate", birthDate);
-                                            editor.putString("licenseNumber", licenseNumber);
-                                            editor.putString("typeUser", "doctor");
-
-                                            editor.apply();
-
-                                        }
-                                    });
-                        }
-                    });
         }
     }
 }

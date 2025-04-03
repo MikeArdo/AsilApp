@@ -1,5 +1,7 @@
 package it.bugbuster.asilapp.access;
 
+import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.SensorManager;
@@ -15,13 +17,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import it.bugbuster.asilapp.ReviewAppDialog;
-import it.bugbuster.asilapp.information.InformationFragment;
-import it.bugbuster.asilapp.TabsFragment;
 import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
-import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.R;
+import it.bugbuster.asilapp.ReviewAppDialog;
+import it.bugbuster.asilapp.TabsFragment;
+import it.bugbuster.asilapp.database.DiseasesDatabase;
+import it.bugbuster.asilapp.database.ExpensesDatabase;
+import it.bugbuster.asilapp.database.MeasurementsDatabase;
 import it.bugbuster.asilapp.expenses.ExpenseListFragment;
+import it.bugbuster.asilapp.information.InformationFragment;
+import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.utils.AuthUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
@@ -30,6 +35,9 @@ public class HomeAsylumSeeker extends AppCompatActivity {
     private FloatingActionButton fab;
     private SensorManager mSensorManager;
     private FirebaseFirestore db;
+    private ExpensesDatabase expensesDatabase;
+    private DiseasesDatabase diseasesDatabase;
+    private MeasurementsDatabase measurementsDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,11 @@ public class HomeAsylumSeeker extends AppCompatActivity {
         fab = findViewById(R.id.floating_action_button);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         db = FirebaseFirestore.getInstance();
+        diseasesDatabase = new DiseasesDatabase(this);
+        expensesDatabase = new ExpensesDatabase(this);
+        measurementsDatabase = new MeasurementsDatabase(this);
+        initializeLocalDataToFirestore();
+        initializeFirestoreToLocalData();
 
         SharedPreferences sharedPreferences = this.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
         String userId = AuthUtils.getCurrentUserId();
@@ -48,8 +61,10 @@ public class HomeAsylumSeeker extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             NavigationUtil.showHomeButton(this);
+            Fragment fragment = new TabsFragment();
+            //setFragmentAnimation(fragment);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new TabsFragment())
+                    .replace(R.id.fragment_container, fragment)
                     .commit();
         }
 
@@ -76,7 +91,6 @@ public class HomeAsylumSeeker extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_list){
                 selectedFragment = new ExpenseListFragment();
             } else if (item.getItemId() == R.id.nav_profile){
-                //myToolbar.setElevation(0f);
                 selectedFragment = new ProfileFragment();
             }
 
@@ -86,6 +100,7 @@ public class HomeAsylumSeeker extends AppCompatActivity {
             }
 
             if (selectedFragment != null) {
+                setFragmentAnimation(selectedFragment);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, selectedFragment)
                         .addToBackStack("home")
@@ -107,8 +122,10 @@ public class HomeAsylumSeeker extends AppCompatActivity {
 
                         if (!(currentFragment instanceof TabsFragment)) {
                             bottomNav.setSelectedItemId(R.id.nav_home);
+                            Fragment fragment = new TabsFragment();
+                            setFragmentAnimation(fragment);
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.fragment_container, new TabsFragment())
+                                    .replace(R.id.fragment_container, fragment)
                                     .commit();
                         } else {
                             finish();
@@ -124,6 +141,17 @@ public class HomeAsylumSeeker extends AppCompatActivity {
         });
 
 
+    }
+
+    private void initializeLocalDataToFirestore() {
+        diseasesDatabase.syncLocalDataToFirestore(this);
+        expensesDatabase.syncLocalDataToFirestore(this);
+        measurementsDatabase.syncLocalDataToFirestore(this);
+    }
+
+    private void initializeFirestoreToLocalData() {
+        diseasesDatabase.syncFirestoreToLocal(this);
+        expensesDatabase.syncFirestoreToLocal(this);
     }
 
     @Override

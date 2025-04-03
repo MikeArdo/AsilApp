@@ -1,8 +1,13 @@
 package it.bugbuster.asilapp.access;
 
+import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.MenuItem;
 
 import androidx.activity.OnBackPressedCallback;
@@ -13,6 +18,9 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import it.bugbuster.asilapp.ReviewAppDialog;
+import it.bugbuster.asilapp.database.DiseasesDatabase;
+import it.bugbuster.asilapp.database.ExpensesDatabase;
+import it.bugbuster.asilapp.database.MeasurementsDatabase;
 import it.bugbuster.asilapp.information.InformationFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.diseases.AsylumSeekersListFragment;
@@ -22,6 +30,7 @@ import it.bugbuster.asilapp.utils.NavigationUtil;
 
 
 public class HomeDoctor extends AppCompatActivity {
+    private DiseasesDatabase diseasesDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,9 @@ public class HomeDoctor extends AppCompatActivity {
         setContentView(R.layout.activity_home_doctor);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        diseasesDatabase = new DiseasesDatabase(this);
+        initializeLocalDataToFirestore();
+        initializeFirestoreToLocalData();
         SharedPreferences sharedPreferences = this.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
         String userId = AuthUtils.getCurrentUserId();
         int launchCount = sharedPreferences.getInt("launch_count_" + userId, 0);
@@ -38,8 +50,10 @@ public class HomeDoctor extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             NavigationUtil.showHomeButton(this);
+            Fragment fragment = new AsylumSeekersListFragment();
+            setFragmentAnimation(fragment);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new AsylumSeekersListFragment())
+                    .replace(R.id.fragment_container, fragment)
                     .commit();
         }
 
@@ -68,6 +82,7 @@ public class HomeDoctor extends AppCompatActivity {
             }
 
             if (selectedFragment != null) {
+                setFragmentAnimation(selectedFragment);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, selectedFragment)
                         .addToBackStack("home_doctor")
@@ -89,8 +104,10 @@ public class HomeDoctor extends AppCompatActivity {
 
                         if (!(currentFragment instanceof AsylumSeekersListFragment)) {
                             bottomNav.setSelectedItemId(R.id.nav_home);
+                            Fragment fragment = new AsylumSeekersListFragment();
+                            setFragmentAnimation(fragment);
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.fragment_container, new AsylumSeekersListFragment())
+                                    .replace(R.id.fragment_container, fragment)
                                     .commit();
                         } else {
                             finish();
@@ -107,7 +124,13 @@ public class HomeDoctor extends AppCompatActivity {
 
     }
 
+    private void initializeLocalDataToFirestore() {
+        diseasesDatabase.syncLocalDataToFirestore(this);
+    }
 
+    private void initializeFirestoreToLocalData() {
+        diseasesDatabase.syncFirestoreToLocal(this);
+    }
 
 
 

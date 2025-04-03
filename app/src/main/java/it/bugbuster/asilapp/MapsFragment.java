@@ -7,6 +7,7 @@ import androidx.activity.result.IntentSenderRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -73,6 +74,7 @@ import java.util.List;
 import java.util.Map;
 
 import it.bugbuster.asilapp.utils.LanguageUtils;
+import it.bugbuster.asilapp.utils.NavigationUtil;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
@@ -98,9 +100,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        NavigationUtil.showBackButton(this);
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Mappa");
+        }
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        NavigationUtil.showBackButton(this);
         Places.initializeWithNewPlacesApiEnabled(requireContext(), apiKey);
         placesClient = Places.createClient(requireContext());
 

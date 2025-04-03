@@ -1,10 +1,13 @@
 package it.bugbuster.asilapp.diseases;
 
+import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -45,6 +48,14 @@ public class AsylumSeekersListFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,8 +76,10 @@ public class AsylumSeekersListFragment extends Fragment {
 
         asylumSeekersListView.setOnItemClickListener((parent, v, position, id) -> {
             User clickedUser = userList.get(position);
+            Fragment fragment = AsylumSeekerDiseasesFragment.newInstance(clickedUser);
+            setFragmentAnimation(fragment);
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, AsylumSeekerDiseasesFragment.newInstance(clickedUser))
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });

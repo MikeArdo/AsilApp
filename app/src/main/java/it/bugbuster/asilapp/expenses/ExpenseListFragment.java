@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 
@@ -52,7 +53,6 @@ public class ExpenseListFragment extends Fragment {
         categoryFilter = view.findViewById(R.id.spinnerFilterCategory);
         dateFilter = view.findViewById(R.id.editTextFilterDate);
         amountView = view.findViewById(R.id.totalAmount);
-        expensesDatabase.syncLocalDataToFirestore(getContext());
         dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         dateRangePicker = DateRangePickerUtils.setupDateRangePicker();
@@ -109,6 +109,14 @@ public class ExpenseListFragment extends Fragment {
         loadExpenses(false);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Lista spese");
+        }
     }
 
     private void loadExpenses(boolean filtered) {

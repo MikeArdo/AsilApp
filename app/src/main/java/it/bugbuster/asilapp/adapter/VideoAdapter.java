@@ -29,6 +29,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         this.context = context;
         this.videoList = videoList;
         this.exoPlayerMap = new HashMap<>();
+
+
     }
 
     @NonNull
@@ -40,9 +42,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
-        holder.setVideo(videoList.get(position).getVideoUrl());
+        if (position < 0 || position >= videoList.size()) {
+            return;
+        }
+
         holder.setTitle(videoList.get(position).getTitle());
-        holder.exoPlayer.pause();
+        holder.setVideo(videoList.get(position).getVideoUrl());
 
         exoPlayerMap.put(position, holder.exoPlayer);
     }

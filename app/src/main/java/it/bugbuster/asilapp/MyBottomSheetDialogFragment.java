@@ -1,5 +1,7 @@
 package it.bugbuster.asilapp;
 
+import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
@@ -19,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -54,8 +57,10 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
             btnAddExpanse.setOnClickListener(v -> {
                 bottomSheetDialog.dismiss();
                 bottomNav.setSelectedItemId(R.id.nav_list);
+                Fragment fragment = new AddExpenseFragment();
+                setFragmentAnimation(fragment);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new AddExpenseFragment())
+                        .replace(R.id.fragment_container, fragment)
                         .addToBackStack(null)
                         .commit();
                 NavigationUtil.showBackButton(this);
@@ -118,8 +123,10 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
             } else {
                 bottomSheetDialog.dismiss();
                 bottomNav.setSelectedItemId(R.id.nav_home);
+                Fragment fragment = new ChooseMeasurementFragment();
+                setFragmentAnimation(fragment);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new ChooseMeasurementFragment())
+                        .replace(R.id.fragment_container, fragment)
                         .addToBackStack(null)
                         .commit();
                 NavigationUtil.showBackButton(this);
@@ -157,8 +164,10 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
             if (result.getResultCode() == Activity.RESULT_OK) {
                 bottomSheetDialog.dismiss();
                 bottomNav.setSelectedItemId(R.id.nav_home);
+                Fragment fragment = new ChooseMeasurementFragment();
+                setFragmentAnimation(fragment);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new ChooseMeasurementFragment())
+                        .replace(R.id.fragment_container, fragment)
                         .addToBackStack(null)
                         .commit();
                 NavigationUtil.showBackButton(this);

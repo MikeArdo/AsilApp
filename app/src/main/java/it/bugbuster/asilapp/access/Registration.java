@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -49,6 +50,7 @@ import it.bugbuster.asilapp.qrcode.QRCodeGeneration;
 import it.bugbuster.asilapp.utils.DatePickerUtils;
 import it.bugbuster.asilapp.utils.JsonUtils;
 import it.bugbuster.asilapp.utils.NetworkUtils;
+import it.bugbuster.asilapp.utils.SharedPreferencesUtils;
 
 // TODO modificare la registrazione specializzando l'utente in Dottore e Richiedente asilo
 public class Registration extends AppCompatActivity {
@@ -67,6 +69,7 @@ public class Registration extends AppCompatActivity {
 
     private MaterialDatePicker<Long> datePicker;
     private String filename = "case_accoglienza.json";
+    private LinearLayout loadingOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,7 @@ public class Registration extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        loadingOverlay = findViewById(R.id.loadingOverlay);
         nameField = findViewById(R.id.name);
         surnameField = findViewById(R.id.surname);
         emailField = findViewById(R.id.email);
@@ -127,6 +131,7 @@ public class Registration extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingOverlay.setVisibility(View.VISIBLE);
                 registerUser();
             }
         });
@@ -173,12 +178,13 @@ public class Registration extends AppCompatActivity {
             return;
         }
 
-
+        loadingOverlay.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
                             FirebaseUser fBuser = mAuth.getCurrentUser();
 
                             User user = null;
@@ -186,13 +192,14 @@ public class Registration extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             if (typeUser.equals("asylum_seeker")) {
                                 if (fBuser != null) {
-
+                                    editor.putString("typeUser", typeUser);
                                     editor.putString("refugeeShelter", refugeeShelter);
                                     editor.putString("cityRefugee", refugeeShelter);
                                     user = new AsylumSeeker(fBuser.getUid(), name, surname, email, birthDate, refugeeShelter);
                                 }
                             } else if (typeUser.equals("doctor")) {
                                 if (fBuser != null) {
+                                    editor.putString("typeUser", typeUser);
                                     editor.putString("licenseNumber", licenseNumber);
                                     user = new Doctor(fBuser.getUid(), name, surname, email, birthDate, licenseNumber);
                                 }
@@ -204,11 +211,12 @@ public class Registration extends AppCompatActivity {
                                 Bitmap qrCode = generateQRCode(credentials);
                                 sendEmail(user, qrCode);
                                 saveUserToFirestore(fBuser.getUid(), user);
-                                finish();
                             }
                         } else {
+                            loadingOverlay.setVisibility(View.GONE);
                             Toast.makeText(Registration.this, getText(R.string.signup_failed) + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                        loadingOverlay.setVisibility(View.GONE);
                     }
                 });
     }
@@ -240,18 +248,24 @@ public class Registration extends AppCompatActivity {
             db.collection("users").document(userId).set(user)
                     .addOnSuccessListener(aVoid -> {
                         Toast.makeText(Registration.this, R.string.saved_data, Toast.LENGTH_SHORT).show();
+                        //saveToSharedPreferences(this);
+                        SharedPreferencesUtils.saveToSharedPreferences(this);
                         Intent intent = new Intent(this, HomeAsylumSeeker.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        finish();
                     })
                     .addOnFailureListener(e -> Toast.makeText(Registration.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_SHORT).show());
         } else if (user instanceof Doctor) {
             db.collection("doctors").document(userId).set(user)
                     .addOnSuccessListener(aVoid -> {
+                        //saveToSharedPreferences(this);
+                        SharedPreferencesUtils.saveToSharedPreferences(this);
                         Toast.makeText(Registration.this, R.string.saved_data, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, HomeDoctor.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        finish();
                     })
                     .addOnFailureListener(e -> Toast.makeText(Registration.this, getString(R.string.error) + e.getMessage(), Toast.LENGTH_SHORT).show());
         }

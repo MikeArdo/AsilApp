@@ -1,7 +1,10 @@
 package it.bugbuster.asilapp.measurements;
 
+import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -9,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import it.bugbuster.asilapp.MapsFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
@@ -26,6 +30,14 @@ public class ChooseMeasurementFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Scegli misurazione");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choose_measurement, container, false);
@@ -38,8 +50,10 @@ public class ChooseMeasurementFragment extends Fragment {
 
         if (cardTemperature != null) {
             cardTemperature.setOnClickListener(v -> {
+                Fragment fragment = TakeMeasurementsFragment.newInstance(Measurements.TEMPERATURE);
+                setFragmentAnimation(fragment);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.TEMPERATURE))
+                        .replace(R.id.fragment_container, fragment)
                         .addToBackStack(null)
                         .commit();
 
@@ -48,8 +62,10 @@ public class ChooseMeasurementFragment extends Fragment {
 
         if (cardHeartBeat != null) {
             cardHeartBeat.setOnClickListener(v -> {
+                Fragment fragment = TakeMeasurementsFragment.newInstance(Measurements.HEARTBEAT);
+                setFragmentAnimation(fragment);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.HEARTBEAT))
+                        .replace(R.id.fragment_container,fragment)
                         .addToBackStack(null)
                         .commit();
             });
@@ -57,8 +73,10 @@ public class ChooseMeasurementFragment extends Fragment {
 
         if (cardWeight != null) {
             cardWeight.setOnClickListener(v -> {
+                Fragment fragment = TakeMeasurementsFragment.newInstance(Measurements.WEIGHT);
+                setFragmentAnimation(fragment);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.WEIGHT))
+                        .replace(R.id.fragment_container, fragment)
                         .addToBackStack(null)
                         .commit();
             });
@@ -66,8 +84,10 @@ public class ChooseMeasurementFragment extends Fragment {
 
         if (cardGlycemia != null) {
             cardGlycemia.setOnClickListener(v -> {
+                Fragment fragment = TakeMeasurementsFragment.newInstance(Measurements.GLYCEMIA);
+                setFragmentAnimation(fragment);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, TakeMeasurementsFragment.newInstance(Measurements.GLYCEMIA))
+                        .replace(R.id.fragment_container, fragment)
                         .addToBackStack(null)
                         .commit();
             });

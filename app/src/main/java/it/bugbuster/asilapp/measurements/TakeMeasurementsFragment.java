@@ -8,6 +8,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.CountDownTimer;
@@ -276,6 +277,10 @@ public class TakeMeasurementsFragment extends Fragment implements SensorEventLis
         super.onResume();
         if (proximitySensor != null) {
             sensorManager.registerListener(this, proximitySensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effettua misurazione");
         }
     }
 

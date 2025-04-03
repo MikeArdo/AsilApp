@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -97,7 +99,11 @@ public class MeasurementsDatabase extends DatabaseHelper {
         });
     }
 
-    public void syncFirestoreToLocal(Context context) {
+    public interface SyncCompleteListener {
+        void onSyncComplete(boolean success);
+    }
+
+    public void syncFirestoreToLocal(Context context, @NonNull SyncCompleteListener listener) {
         if (!NetworkUtils.isNetworkAvailable(context)) return;
 
         String userId = AuthUtils.getCurrentUserId();
@@ -128,8 +134,8 @@ public class MeasurementsDatabase extends DatabaseHelper {
                     }
 
                 }
-
                 localDb.setTransactionSuccessful();
+                listener.onSyncComplete(true);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -137,6 +143,7 @@ public class MeasurementsDatabase extends DatabaseHelper {
                 localDb.close();
             }
         }).addOnFailureListener(e -> {
+            listener.onSyncComplete(false);
             Log.e("SyncError", "Failed to sync Firestore to SQLite: " + e.getMessage());
         });
     }

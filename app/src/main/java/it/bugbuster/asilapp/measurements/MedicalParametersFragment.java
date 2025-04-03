@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 
@@ -51,18 +52,29 @@ public class MedicalParametersFragment extends Fragment {
     public void onResume() {
         super.onResume();
         NavigationUtil.showHomeButton(this);
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.app_name);
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        measurementsDatabase = new MeasurementsDatabase(getContext());
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_medical_parameters, container, false);
-
-        measurementsDatabase = new MeasurementsDatabase(getContext());
         measurementsListView = view.findViewById(R.id.listViewMeasurements);
         typeMeasurements = view.findViewById(R.id.spinnerFilterCategory);
         dateFilter = view.findViewById(R.id.editTextFilterDate);
-        measurementsDatabase.syncLocalDataToFirestore(getContext());
+        measurementsDatabase.syncFirestoreToLocal(requireContext(), success -> {
+            if (success) {
+                loadMeasurements(false); // Load measurements only after sync completes
+            }
+        });
         dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         dateRangePicker = DateRangePickerUtils.setupDateRangePicker();

@@ -1,123 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".access.Login">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/ic_launcher" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".access.Login">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_serif"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/email">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/ic_launcher" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/email"
+        <TextView
+            android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="emailAddress"
-            android:inputType="textEmailAddress"
-            app:layout_constraintTop_toTopOf="parent" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:fontFamily="@font/roboto_serif"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        app:endIconMode="password_toggle">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints="password"
-            android:inputType="textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="@string/email">
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="@string/login" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:inputType="textEmailAddress"
+                app:layout_constraintTop_toTopOf="parent" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:orientation="horizontal"
-        android:padding="4dp">
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btnLoginQRCode"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:layout_marginEnd="2dp"
-            android:text="@string/login_qrcode" />
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/login" />
 
-        <Button
-            android:id="@+id/btnRegister"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="2dp"
-            android:layout_weight="2"
-            android:text="@string/sign_up" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:orientation="horizontal"
+            android:padding="4dp">
 
+            <Button
+                android:id="@+id/btnLoginQRCode"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:layout_marginEnd="2dp"
+                android:text="@string/login_qrcode" />
+
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_weight="2"
+                android:text="@string/sign_up" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_margin="4dp"
+            android:background="?android:attr/listDivider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:orientation="horizontal"
+            android:padding="4dp">
+            <Button
+                android:id="@+id/demoAsylumSeeker"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="2dp"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="11sp"
+                android:autoSizeMaxTextSize="100sp"
+                android:text="Demo richiedente\nasilo" />
+
+            <Button
+                android:id="@+id/demoDoctor"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:text="Demo dottore" />
+        </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_margin="4dp"
-        android:background="?android:attr/listDivider" />
-
     <LinearLayout
+        android:id="@+id/loadingOverlay"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:orientation="horizontal"
-        android:padding="4dp">
-        <Button
-            android:id="@+id/demoAsylumSeeker"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginEnd="2dp"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="11sp"
-            android:autoSizeMaxTextSize="100sp"
-            android:text="Demo richiedente\nasilo" />
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/demoDoctor"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="2dp"
-            android:layout_weight="1"
-            android:text="Demo dottore" />
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center"
+            app:indicatorSize="60dp"/>
     </LinearLayout>
 
 
 
 
-</LinearLayout>
+</FrameLayout>

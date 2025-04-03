@@ -1,12 +1,15 @@
 package it.bugbuster.asilapp.refugee_shelter;
 
 
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -61,6 +66,14 @@ public class RefugeeShelterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         localRefugeeShelters = JsonUtils.parseRefugeeShelters(requireContext(), filename);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Casa accoglienza");
+        }
     }
 
 
@@ -137,8 +150,14 @@ public class RefugeeShelterFragment extends Fragment {
 
     private void showRefugeeShelter() {
         String imageSrc = selectedRefugeeShelter.getImage();
+        DrawableCrossFadeFactory factory =
+                new DrawableCrossFadeFactory.Builder().setCrossFadeEnabled(true).build();
         Glide.with(this)
                 .load(imageSrc)
+                .transition(withCrossFade(factory))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.color.md_theme_surfaceDim)
+                .centerCrop()
                 .into(imageRefugee);
         nameField.setText(selectedRefugeeShelter.getName());
         if (LanguageUtils.getCurrentLanguage().equals("it")) {

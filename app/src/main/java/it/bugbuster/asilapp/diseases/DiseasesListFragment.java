@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayout;
@@ -59,34 +60,18 @@ public class DiseasesListFragment extends Fragment {
         if (getArguments() != null) {
             user = (User) getArguments().getSerializable(ARG_USER);
         }
+        diseasesDatabase = new DiseasesDatabase(getContext());
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         NavigationUtil.showBackButton(this);
-/*
-        callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                    View parentView = requireView().getRootView();
-                    TabLayout tabLayout = parentView.findViewById(R.id.tabLayout);
-
-                    // Select the "Profile" tab when the user presses back (tab position = 1)
-                    tabLayout.getTabAt(0).select();
-
-                callback.remove();
-            }
-        };
-        Fragment currentFragment = getParentFragmentManager().findFragmentById(R.id.fragment_container);
-        if (currentFragment instanceof TabsFragment) {
-            View parentView = requireView().getRootView();
-            TabLayout tabLayout = parentView.findViewById(R.id.tabLayout);
-            if (tabLayout.getSelectedTabPosition() == 1) {
-                requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+        if (getActivity() != null) {
+            if (getParentFragment() instanceof AsylumSeekerDiseasesFragment) {
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Patologie paziente");
             }
         }
-
- */
     }
 
 
@@ -94,11 +79,8 @@ public class DiseasesListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_diseases_list, container, false);
-
-        diseasesDatabase = new DiseasesDatabase(getContext());
         diseaseListView = view.findViewById(R.id.listViewDiseases);
         diseasesDatabase.syncFirestoreToLocal(getContext());
-
         loadDiseases();
 
         return view;

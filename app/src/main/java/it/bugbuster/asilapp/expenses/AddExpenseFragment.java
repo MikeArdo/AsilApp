@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -51,6 +52,14 @@ public class AddExpenseFragment extends Fragment {
         dateInput.setOnClickListener(v -> datePicker.show(getChildFragmentManager(), "DATE_PICKER"));
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Aggiungi spesa");
+        }
     }
 
     private void saveExpense() {

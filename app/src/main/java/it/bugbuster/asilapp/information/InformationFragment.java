@@ -1,9 +1,12 @@
 package it.bugbuster.asilapp.information;
 
+import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.media3.exoplayer.ExoPlayer;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
 import com.google.android.material.tabs.TabLayout;
@@ -104,6 +108,8 @@ public class InformationFragment extends Fragment {
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
         String typeUser = sharedPreferences.getString("typeUser", null);
         NavigationUtil.showBackButton(this);
+        ProgressBar progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         if (typeUser != null) {
             if (typeUser.equals("asylum_seeker")) {
@@ -114,15 +120,19 @@ public class InformationFragment extends Fragment {
         }
 
         cardShelter.setOnClickListener(view1 -> {
+            Fragment fragment = new RefugeeShelterFragment();
+            setFragmentAnimation(fragment);
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new RefugeeShelterFragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
 
         cardMap.setOnClickListener(view1 -> {
+            Fragment fragment = new MapsFragment();
+            setFragmentAnimation(fragment);
             getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, new MapsFragment())
+                    .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit();
         });
@@ -156,14 +166,19 @@ public class InformationFragment extends Fragment {
         if (videoTable != null) {
             db.collection(videoTable).orderBy("number").get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    List<VideoModel> newVideos = new ArrayList<>();
                     int i = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         String url = document.getString("url");
                         if (url != null) {
+                            if (i == 0) {
+                                videoList.clear();
+                            }
                             videoList.add(new VideoModel(titleList[i], url));
+                            progressBar.setVisibility(View.GONE);
                             videoAdapter.notifyItemInserted(i);
+                            i++;
                         }
-                        i++;
                     }
                 }
             });
@@ -204,6 +219,13 @@ public class InformationFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() != null) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Informazioni");
+        }
+    }
 
     @Override
     public void onDestroyView() {

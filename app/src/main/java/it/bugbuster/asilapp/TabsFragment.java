@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -15,6 +16,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import it.bugbuster.asilapp.adapter.ViewPagerAdapter;
+import it.bugbuster.asilapp.diseases.AsylumSeekerDiseasesFragment;
 import it.bugbuster.asilapp.diseases.DiseasesListFragment;
 
 /**
@@ -24,7 +26,6 @@ import it.bugbuster.asilapp.diseases.DiseasesListFragment;
  */
 public class TabsFragment extends Fragment {
 
-    private OnBackPressedCallback callback;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -90,6 +91,9 @@ public class TabsFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 1) {
                     requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+                    if (getActivity() != null) {
+                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Patologie");
+                    }
                 } else {
                     callback.remove();
                 }
@@ -109,35 +113,39 @@ public class TabsFragment extends Fragment {
         return view;
     }
 
+    private OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            View parentView = requireView().getRootView();
+            TabLayout tabLayout = parentView.findViewById(R.id.tabLayout);
+
+            if (tabLayout.getSelectedTabPosition() == 1) {
+                tabLayout.getTabAt(0).select();
+            }
+
+            // Select the "Profile" tab when the user presses back (tab position = 1)
+
+
+            //callback.remove();
+        }
+    };
+
     @Override
     public void onResume() {
         super.onResume();
-        callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                View parentView = requireView().getRootView();
-                TabLayout tabLayout = parentView.findViewById(R.id.tabLayout);
 
-                if (tabLayout.getSelectedTabPosition() == 1) {
-                    tabLayout.getTabAt(0).select();
-                }
-
-                // Select the "Profile" tab when the user presses back (tab position = 1)
-
-
-                callback.remove();
-            }
-        };
         View parentView = requireView().getRootView();
         TabLayout tabLayout = parentView.findViewById(R.id.tabLayout);
         if (tabLayout.getSelectedTabPosition() == 1) {
             requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
         }
     }
-
+/*
     @Override
     public void onPause() {
         super.onPause();
         callback.remove();
     }
+
+ */
 }
