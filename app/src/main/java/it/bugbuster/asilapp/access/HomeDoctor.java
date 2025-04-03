@@ -1,13 +1,10 @@
 package it.bugbuster.asilapp.access;
 
-import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+import static it.bugbuster.asilapp.utils.AnimationFragmentUtil.setFragmentAnimation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.view.MenuItem;
 
 import androidx.activity.OnBackPressedCallback;
@@ -17,13 +14,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import it.bugbuster.asilapp.ReviewAppDialog;
-import it.bugbuster.asilapp.database.DiseasesDatabase;
-import it.bugbuster.asilapp.database.ExpensesDatabase;
-import it.bugbuster.asilapp.database.MeasurementsDatabase;
-import it.bugbuster.asilapp.information.InformationFragment;
 import it.bugbuster.asilapp.R;
+import it.bugbuster.asilapp.dialog.ReviewAppDialog;
+import it.bugbuster.asilapp.database.DiseasesDatabase;
 import it.bugbuster.asilapp.diseases.AsylumSeekersListFragment;
+import it.bugbuster.asilapp.information.InformationFragment;
 import it.bugbuster.asilapp.profile.ProfileFragment;
 import it.bugbuster.asilapp.utils.AuthUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;

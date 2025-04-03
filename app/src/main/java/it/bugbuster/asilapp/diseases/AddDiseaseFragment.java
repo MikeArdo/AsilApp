@@ -1,11 +1,6 @@
 package it.bugbuster.asilapp.diseases;
 
 import android.os.Bundle;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +8,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.database.DiseasesDatabase;
-import it.bugbuster.asilapp.database.ExpensesDatabase;
 import it.bugbuster.asilapp.entity.User;
 
 
@@ -53,7 +51,7 @@ public class AddDiseaseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Aggiungi patologia");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.add_disease);
         }
     }
 

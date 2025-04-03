@@ -1,6 +1,6 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.dialog;
 
-import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+import static it.bugbuster.asilapp.utils.AnimationFragmentUtil.setFragmentAnimation;
 
 import android.Manifest;
 import android.app.Activity;
@@ -18,7 +18,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -27,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.expenses.AddExpenseFragment;
 import it.bugbuster.asilapp.measurements.ChooseMeasurementFragment;
 import it.bugbuster.asilapp.utils.NavigationUtil;
@@ -49,7 +49,6 @@ public class MyBottomSheetDialogFragment extends com.google.android.material.bot
 
         bottomNav = requireActivity().findViewById(R.id.bottom_navigation);
 
-        // Close button functionality
         Button btnAddExpanse = bottomSheetDialog.findViewById(R.id.add_expanse);
         Button btnChooseMeasurements = bottomSheetDialog.findViewById(R.id.chooseMeasurement);
 

@@ -112,7 +112,7 @@
                 android:autoSizeTextType="uniform"
                 android:autoSizeMinTextSize="11sp"
                 android:autoSizeMaxTextSize="100sp"
-                android:text="Demo richiedente\nasilo" />
+                android:text="@string/asylum_seeker_demo" />
 
             <Button
                 android:id="@+id/demoDoctor"
@@ -120,7 +120,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="2dp"
                 android:layout_weight="1"
-                android:text="Demo dottore" />
+                android:text="@string/doctor_demo" />
         </LinearLayout>
     </LinearLayout>
 

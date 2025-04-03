@@ -1,12 +1,11 @@
 package it.bugbuster.asilapp.utils;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.widget.ImageView;
-
-import it.bugbuster.asilapp.R;
 
 public class UserAvatarUtil {
 

@@ -3,9 +3,7 @@ package it.bugbuster.asilapp.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.google.firebase.firestore.CollectionReference;

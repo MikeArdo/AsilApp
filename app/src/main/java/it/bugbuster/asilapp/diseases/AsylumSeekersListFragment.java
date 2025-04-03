@@ -1,20 +1,18 @@
 package it.bugbuster.asilapp.diseases;
 
-import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+import static it.bugbuster.asilapp.utils.AnimationFragmentUtil.setFragmentAnimation;
 
 import android.os.Bundle;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,7 +29,6 @@ import it.bugbuster.asilapp.utils.NavigationUtil;
 
 
 public class AsylumSeekersListFragment extends Fragment {
-    private OnBackPressedCallback callback;
     private ListView asylumSeekersListView;
     private UserAdapter adapter;
     private List<User> userList;
@@ -83,18 +80,6 @@ public class AsylumSeekersListFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-/*
-        callback = new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                getParentFragmentManager().popBackStack();
-                callback.remove();
-            }
-        };
-        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
-
-
- */
 
 
         return view;

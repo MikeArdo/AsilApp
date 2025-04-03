@@ -1,4 +1,4 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.dialog;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.utils.AuthUtils;
 
 public class ReviewAppDialog {
@@ -38,10 +39,10 @@ public class ReviewAppDialog {
         String userId = AuthUtils.getCurrentUserId();
         final boolean[] dontAskAgain = {false};
 
-        dialogBuilder.setTitle("Valuta l'app");
+        dialogBuilder.setTitle(R.string.rate_the_app);
         View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_starbar_checkbox, null);
 
-        dialogBuilder.setMessage("Ti piacciono i contenuti di questa app? Inserisci una valutazione da 1 a 5 stelle:");
+        dialogBuilder.setMessage(R.string.rate_app_description);
         dialogBuilder.setView(dialogView);
         RatingBar userRating = dialogView.findViewById(R.id.userRatingBar);
         CheckBox dontAskCheckBox = dialogView.findViewById(R.id.dontAskCheckBox);
@@ -81,7 +82,7 @@ public class ReviewAppDialog {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(context, "Recensione inviata con successo!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, R.string.review_sent_successfully, Toast.LENGTH_SHORT).show();
                                         editor.putBoolean("dont_ask_again_" + userId, true);
                                         editor.apply();
                                         dialog.dismiss();
@@ -90,7 +91,7 @@ public class ReviewAppDialog {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(context, "Recensione non inviata", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, R.string.review_not_sent, Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
                                     }
                                 });

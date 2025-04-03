@@ -4,16 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
 import java.util.List;
 
 import it.bugbuster.asilapp.R;
-import it.bugbuster.asilapp.entity.AsylumSeeker;
 import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.utils.UserAvatarUtil;
 

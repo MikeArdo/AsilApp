@@ -2,7 +2,6 @@ package it.bugbuster.asilapp.diseases;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,31 +9,21 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-
 import it.bugbuster.asilapp.R;
-import it.bugbuster.asilapp.TabsFragment;
 import it.bugbuster.asilapp.database.DiseasesDatabase;
 import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.utils.AuthUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
 public class DiseasesListFragment extends Fragment {
-    private OnBackPressedCallback callback;
     private static final String ARG_USER = "user";
     private User user;
     private DiseasesDatabase diseasesDatabase;
@@ -69,7 +58,7 @@ public class DiseasesListFragment extends Fragment {
         NavigationUtil.showBackButton(this);
         if (getActivity() != null) {
             if (getParentFragment() instanceof AsylumSeekerDiseasesFragment) {
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Patologie paziente");
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.patient_diseases);
             }
         }
     }

@@ -1,10 +1,9 @@
 package it.bugbuster.asilapp.access;
 
-import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+import static it.bugbuster.asilapp.utils.AnimationFragmentUtil.setFragmentAnimation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -15,12 +14,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import it.bugbuster.asilapp.MyBottomSheetDialogFragment;
+import it.bugbuster.asilapp.dialog.MyBottomSheetDialogFragment;
 import it.bugbuster.asilapp.R;
-import it.bugbuster.asilapp.ReviewAppDialog;
-import it.bugbuster.asilapp.TabsFragment;
+import it.bugbuster.asilapp.dialog.ReviewAppDialog;
+import it.bugbuster.asilapp.tab.TabsFragment;
 import it.bugbuster.asilapp.database.DiseasesDatabase;
 import it.bugbuster.asilapp.database.ExpensesDatabase;
 import it.bugbuster.asilapp.database.MeasurementsDatabase;
@@ -33,8 +31,6 @@ import it.bugbuster.asilapp.utils.NavigationUtil;
 
 public class HomeAsylumSeeker extends AppCompatActivity {
     private FloatingActionButton fab;
-    private SensorManager mSensorManager;
-    private FirebaseFirestore db;
     private ExpensesDatabase expensesDatabase;
     private DiseasesDatabase diseasesDatabase;
     private MeasurementsDatabase measurementsDatabase;
@@ -47,7 +43,6 @@ public class HomeAsylumSeeker extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         fab = findViewById(R.id.floating_action_button);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        db = FirebaseFirestore.getInstance();
         diseasesDatabase = new DiseasesDatabase(this);
         expensesDatabase = new ExpensesDatabase(this);
         measurementsDatabase = new MeasurementsDatabase(this);
@@ -62,7 +57,6 @@ public class HomeAsylumSeeker extends AppCompatActivity {
         if (savedInstanceState == null) {
             NavigationUtil.showHomeButton(this);
             Fragment fragment = new TabsFragment();
-            //setFragmentAnimation(fragment);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .commit();

@@ -1,6 +1,20 @@
-package it.bugbuster.asilapp;
+package it.bugbuster.asilapp.information;
 
-import static android.content.ContentValues.TAG;
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
@@ -12,31 +26,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import android.Manifest;
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentSender;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -61,18 +50,14 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.api.net.SearchNearbyRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import com.google.protobuf.StringValue;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import it.bugbuster.asilapp.BuildConfig;
+import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.utils.LanguageUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
@@ -104,7 +89,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         super.onResume();
         NavigationUtil.showBackButton(this);
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Mappa");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.map);
         }
     }
 
@@ -289,31 +274,26 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             });
 
     public void fetchNearbyPlaces(double latitude, double longitude) {
-        // Define a list of fields to include in the response for each returned place.
         final List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.PRIMARY_TYPE);
 
         LatLng center = new LatLng(latitude, longitude);
-        CircularBounds circle = CircularBounds.newInstance(center, /* radius = */ 1000);
+        CircularBounds circle = CircularBounds.newInstance(center, 1000);
 
-        // Define a list of types to include.
         final List<String> includedTypes = Arrays.asList("hospital", "city_hall", "post_office", "church", "school", "pharmacy");
 
-        // Use the builder to create a SearchNearbyRequest object.
         final SearchNearbyRequest searchNearbyRequest =
                 SearchNearbyRequest.builder(/* location restriction = */ circle, placeFields)
                         .setIncludedPrimaryTypes(includedTypes)
                         .setMaxResultCount(10)
                         .build();
 
-        // Call placesClient.searchNearby() to perform the search.
-        // Define a response handler to process the returned List of Place objects.
+
         placesClient.searchNearby(searchNearbyRequest)
                 .addOnSuccessListener(response -> {
                     List<Place> places = response.getPlaces();
                     for (Place place : places) {
                         LatLng placeLatLng = place.getLatLng();
                         if (placeLatLng != null) {
-                            // Add a marker for each place
                             mMap.addMarker(new MarkerOptions()
                                     .position(placeLatLng)
                                     .title(place.getName())

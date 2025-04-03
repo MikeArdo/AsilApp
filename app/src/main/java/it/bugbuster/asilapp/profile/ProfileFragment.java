@@ -4,12 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import java.util.Objects;
+import com.google.firebase.auth.FirebaseAuth;
 
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.access.Login;
-import it.bugbuster.asilapp.entity.RefugeeShelter;
 import it.bugbuster.asilapp.utils.UserAvatarUtil;
 
 public class ProfileFragment extends Fragment {
@@ -47,7 +43,7 @@ public class ProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Profilo");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.profile);
         }
     }
 
@@ -70,7 +66,6 @@ public class ProfileFragment extends Fragment {
         String surname = sharedPreferences.getString("surname", "Surname");
         String email = sharedPreferences.getString("email", "Email");
         String birthDate = sharedPreferences.getString("birthDate", "Birth date");
-        String typeUser = sharedPreferences.getString("typeUser", null);
 
         UserAvatarUtil.setUserAvatar(name, surname, userAvatarImageView);
         String nameAndSurname = name + " " + surname;
@@ -86,9 +81,9 @@ public class ProfileFragment extends Fragment {
             FirebaseAuth.getInstance().sendPasswordResetEmail(email)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(requireContext(), "Email di reset inviata!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(requireContext(), getString(R.string.reset_email_sent), Toast.LENGTH_LONG).show();
                         } else {
-                            Toast.makeText(requireContext(), "Errore: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(requireContext(), getString(R.string.error) + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
         });

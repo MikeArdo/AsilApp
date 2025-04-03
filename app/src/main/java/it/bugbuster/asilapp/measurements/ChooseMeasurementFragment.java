@@ -1,18 +1,16 @@
 package it.bugbuster.asilapp.measurements;
 
-import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+import static it.bugbuster.asilapp.utils.AnimationFragmentUtil.setFragmentAnimation;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import it.bugbuster.asilapp.MapsFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
@@ -33,7 +31,7 @@ public class ChooseMeasurementFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Scegli misurazione");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.choose_measurement);
         }
     }
 

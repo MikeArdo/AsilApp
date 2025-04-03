@@ -58,7 +58,7 @@ public class AddExpenseFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Aggiungi spesa");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.add_expense);
         }
     }
 

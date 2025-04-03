@@ -34,7 +34,7 @@
                     android:layout_weight="1"
                     android:padding="4dp"
                     android:gravity="center"
-                    android:text="Misura temperatura corporea"
+                    android:text="@string/measure_body_temperature"
                     android:textAlignment="center"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 
@@ -68,7 +68,7 @@
                     android:padding="4dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Misura battito cardiaco"
+                    android:text="@string/measure_heart_rate"
                     android:textAlignment="center"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 
@@ -110,7 +110,7 @@
                     android:padding="4dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Misura peso corporeo"
+                    android:text="@string/measure_body_weight"
                     android:textAlignment="center"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 
@@ -144,7 +144,7 @@
                     android:padding="4dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Misura glicemia"
+                    android:text="@string/measure_blood_sugar"
                     android:textAlignment="center"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 

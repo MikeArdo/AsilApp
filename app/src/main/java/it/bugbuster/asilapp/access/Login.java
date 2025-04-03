@@ -1,7 +1,6 @@
 package it.bugbuster.asilapp.access;
 
 import android.Manifest;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -53,7 +52,6 @@ public class Login extends AppCompatActivity {
             SharedPreferences sharedPreferences = this.getSharedPreferences("ProfilePrefs", Context.MODE_PRIVATE);
             String typeUser = sharedPreferences.getString("typeUser", null);
             if (typeUser != null) {
-                //saveToSharedPreferences(this);
                 SharedPreferencesUtils.saveToSharedPreferences(this);
                 Intent intent = null;
 
@@ -101,7 +99,6 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Registration.class);
                 startActivity(intent);
-                //overridePendingTransition(android.R.anim.slide_out_right, android.R.anim.slide_in_left);
             }
         });
 
@@ -173,7 +170,6 @@ public class Login extends AppCompatActivity {
                                         .addOnSuccessListener(document -> {
 
                                             if (document.exists()) {
-                                                //saveToSharedPreferences(this);
                                                 SharedPreferencesUtils.saveToSharedPreferences(Login.this);
                                                 Toast.makeText(Login.this, R.string.signin_done, Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(Login.this, HomeAsylumSeeker.class);
@@ -184,7 +180,6 @@ public class Login extends AppCompatActivity {
                                                 db.collection("doctors").document(userId).get()
                                                         .addOnSuccessListener(documentDoctor -> {
                                                             if (documentDoctor.exists()) {
-                                                                //saveToSharedPreferences(this);
                                                                 SharedPreferencesUtils.saveToSharedPreferences(Login.this);
                                                                 Toast.makeText(Login.this, R.string.signin_done, Toast.LENGTH_SHORT).show();
                                                                 Intent intent = new Intent(Login.this, HomeDoctor.class);

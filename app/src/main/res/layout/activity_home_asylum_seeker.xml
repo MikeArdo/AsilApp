@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:contentDescription="Aggiungi"
+            android:contentDescription="@string/add"
             app:srcCompat="@drawable/add_24px"/>
     </FrameLayout>
 

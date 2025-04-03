@@ -280,7 +280,7 @@ public class TakeMeasurementsFragment extends Fragment implements SensorEventLis
         }
 
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Effettua misurazione");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.take_measurement);
         }
     }
 

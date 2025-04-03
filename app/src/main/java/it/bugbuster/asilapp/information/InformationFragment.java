@@ -1,10 +1,15 @@
 package it.bugbuster.asilapp.information;
 
-import static it.bugbuster.asilapp.AnimationFragment.setFragmentAnimation;
+import static it.bugbuster.asilapp.utils.AnimationFragmentUtil.setFragmentAnimation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -12,37 +17,22 @@ import androidx.fragment.app.Fragment;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
-
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.bugbuster.asilapp.DocumentAndContactDialog;
-import it.bugbuster.asilapp.MapsFragment;
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.adapter.VideoAdapter;
+import it.bugbuster.asilapp.dialog.DocumentAndContactDialog;
 import it.bugbuster.asilapp.entity.VideoModel;
 import it.bugbuster.asilapp.refugee_shelter.RefugeeShelterFragment;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link InformationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class InformationFragment extends Fragment {
 
     private ViewPager2 videoViewPager;
@@ -54,33 +44,14 @@ public class InformationFragment extends Fragment {
     private int previousPosition = -1;
 
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public InformationFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment InformationFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static InformationFragment newInstance(String param1, String param2) {
         InformationFragment fragment = new InformationFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,10 +59,6 @@ public class InformationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -223,7 +190,7 @@ public class InformationFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Informazioni");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.info);
         }
     }
 

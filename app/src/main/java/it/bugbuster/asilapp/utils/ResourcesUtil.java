@@ -1,8 +1,8 @@
 package it.bugbuster.asilapp.utils;
 
 import android.content.Context;
-import android.content.Context;
 import android.content.res.Resources;
+
 import java.lang.reflect.Field;
 
 import it.bugbuster.asilapp.R;
@@ -14,14 +14,14 @@ public class ResourcesUtil {
 
         for (Field field : fields) {
             try {
-                int resId = field.getInt(null); // Get resource ID
-                if (res.getString(resId).equals(value)) { // Compare values
-                    return field.getName(); // Return resource name
+                int resId = field.getInt(null);
+                if (res.getString(resId).equals(value)) {
+                    return field.getName();
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
-        return null; // Not found
+        return null;
     }
 }

@@ -115,7 +115,7 @@ public class ExpenseListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Lista spese");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.expenses_list);
         }
     }
 

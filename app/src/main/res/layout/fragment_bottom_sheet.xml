@@ -17,13 +17,13 @@
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aggiungi spesa"/>
+        android:text="@string/add_disease"/>
 
     <Button
         android:id="@+id/chooseMeasurement"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Effettua misurazioni"/>
+        android:text="@string/take_measurements"/>
 
 </LinearLayout>

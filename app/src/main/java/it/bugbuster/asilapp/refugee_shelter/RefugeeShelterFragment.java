@@ -3,20 +3,11 @@ package it.bugbuster.asilapp.refugee_shelter;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +16,12 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -35,13 +32,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.entity.RefugeeShelter;
@@ -72,7 +66,7 @@ public class RefugeeShelterFragment extends Fragment {
     public void onResume() {
         super.onResume();
         if (getActivity() != null) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Casa accoglienza");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.refugee_shelter);
         }
     }
 
@@ -170,7 +164,7 @@ public class RefugeeShelterFragment extends Fragment {
     private Spanned dottedStringList(List<String> items) {
         StringBuilder bulletList = new StringBuilder();
         for (String item : items) {
-            bulletList.append("&#8226; ").append(item).append("<br>"); // &#8226; è il simbolo del pallino
+            bulletList.append("&#8226; ").append(item).append("<br>"); // &#8226; is dot symbol
         }
         return Html.fromHtml(bulletList.toString(), Html.FROM_HTML_MODE_LEGACY);
     }
@@ -184,7 +178,7 @@ public class RefugeeShelterFragment extends Fragment {
     }
 
     private void calculateAverageRating(String cityRefugee) {
-        db.collection("refugee_shelter").document(cityRefugee) // Fetch all reviews from Firestore
+        db.collection("refugee_shelter").document(cityRefugee)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -221,7 +215,7 @@ public class RefugeeShelterFragment extends Fragment {
 
     private void submitReview(String cityRefugee, float userRatingValue) {
         MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireContext());
-        dialogBuilder.setTitle("Inserisci una recensione");
+        dialogBuilder.setTitle(R.string.leave_a_review);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_starbar, null);
 
         dialogBuilder.setView(dialogView);
@@ -245,14 +239,14 @@ public class RefugeeShelterFragment extends Fragment {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         calculateAverageRating(cityRefugee);
-                                        Toast.makeText(requireContext(), "Recensione inviata con successo!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireContext(), getString(R.string.review_sent_successfully), Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         calculateAverageRating(cityRefugee);
-                                        Toast.makeText(requireContext(), "Recensione non inviata", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(requireContext(), getString(R.string.review_not_sent), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }

@@ -1,8 +1,6 @@
 package it.bugbuster.asilapp.access;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,20 +15,20 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,20 +37,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.entity.AsylumSeeker;
 import it.bugbuster.asilapp.entity.Doctor;
 import it.bugbuster.asilapp.entity.RefugeeShelter;
-import it.bugbuster.asilapp.refugee_shelter.RefugeeViewModel;
-import it.bugbuster.asilapp.service.MailSender;
-import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.entity.User;
 import it.bugbuster.asilapp.qrcode.QRCodeGeneration;
+import it.bugbuster.asilapp.refugee_shelter.RefugeeViewModel;
+import it.bugbuster.asilapp.service.MailSender;
 import it.bugbuster.asilapp.utils.DatePickerUtils;
 import it.bugbuster.asilapp.utils.JsonUtils;
 import it.bugbuster.asilapp.utils.NetworkUtils;
 import it.bugbuster.asilapp.utils.SharedPreferencesUtils;
 
-// TODO modificare la registrazione specializzando l'utente in Dottore e Richiedente asilo
 public class Registration extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -233,8 +230,7 @@ public class Registration extends AppCompatActivity {
     }
 
     private void sendEmail(User user, Bitmap qrCode) {
-        // TODO change emailTo
-        String emailTo = "michele.pio2000@gmail.com";
+        String emailTo = user.getEmail();
         String subject = getString(R.string.welcome_to_asilapp);
         String body = getString(R.string.welcome_message, user.getName(), user.getSurname());
 
@@ -259,7 +255,6 @@ public class Registration extends AppCompatActivity {
         } else if (user instanceof Doctor) {
             db.collection("doctors").document(userId).set(user)
                     .addOnSuccessListener(aVoid -> {
-                        //saveToSharedPreferences(this);
                         SharedPreferencesUtils.saveToSharedPreferences(this);
                         Toast.makeText(Registration.this, R.string.saved_data, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(this, HomeDoctor.class);

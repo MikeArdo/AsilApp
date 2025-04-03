@@ -30,7 +30,7 @@ public class RefugeeShelterFirebase {
         MutableLiveData<List<RefugeeShelter>> liveData = new MutableLiveData<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("refugee_shelter") // Collezione Firestore
+        db.collection("refugee_shelter")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

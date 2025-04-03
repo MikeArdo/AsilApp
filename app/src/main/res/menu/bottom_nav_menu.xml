@@ -11,9 +11,9 @@
     <item
         android:id="@+id/nav_list"
         android:icon="@drawable/paid_24px"
-        android:title="Lista Spese" />
+        android:title="@string/expenses_list" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/account_circle_24px"
-        android:title="Profilo" />
+        android:title="@string/profile" />
 </menu>

@@ -3,13 +3,6 @@ package it.bugbuster.asilapp.measurements;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Pair;
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -21,8 +14,13 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +29,6 @@ import java.util.TimeZone;
 
 import it.bugbuster.asilapp.R;
 import it.bugbuster.asilapp.database.MeasurementsDatabase;
-import it.bugbuster.asilapp.diseases.DiseasesListFragment;
 import it.bugbuster.asilapp.utils.DateRangePickerUtils;
 import it.bugbuster.asilapp.utils.NavigationUtil;
 import it.bugbuster.asilapp.utils.ResourcesUtil;
@@ -44,8 +41,6 @@ public class MedicalParametersFragment extends Fragment {
     private EditText dateFilter;
     private MaterialDatePicker<Pair<Long, Long>> dateRangePicker;
     private SimpleDateFormat dateFormat;
-    private TextView valueView;
-    private TabLayout tabLayout;
 
 
     @Override
