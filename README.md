@@ -41,8 +41,8 @@ Il progetto include un sistema di integrazione con un **contenitore smart di app
 
 * **Backend / Frontend:** [Android Studio (Java)]
 * **Database:** [Firebase / SQLite]
-<img width="1194" height="2532" alt="scegli misurazione" src="https://github.com/user-attachments/assets/650403f4-0c91-4b9d-b916-3fe0dacbaae8" />
-<img width="1194" height="2532" alt="misurazione" src="https://github.com/user-attachments/assets/3263ca91-f9ff-4ce8-a511-2e487a73da77" />
-<img width="1194" height="2532" alt="info asilo" src="https://github.com/user-attachments/assets/9f346224-71a7-4a03-9a03-6ef0c1cdc031" />
-<img width="1194" height="2532" alt="casa accoglienza" src="https://github.com/user-attachments/assets/086dd45c-0863-4139-9676-e31f91b38138" />
-<img width="1194" height="2532" alt="Accesso" src="https://github.com/user-attachments/assets/3c5c0a78-4fce-4b40-bc49-e2f6ed5686e3" />
+<img width="288" height="512" alt="scegli misurazione" src="https://github.com/user-attachments/assets/650403f4-0c91-4b9d-b916-3fe0dacbaae8" />
+<img width="288" height="512" alt="misurazione" src="https://github.com/user-attachments/assets/3263ca91-f9ff-4ce8-a511-2e487a73da77" />
+<img width="288" height="512" alt="info asilo" src="https://github.com/user-attachments/assets/9f346224-71a7-4a03-9a03-6ef0c1cdc031" />
+<img width="288" height="512" alt="casa accoglienza" src="https://github.com/user-attachments/assets/086dd45c-0863-4139-9676-e31f91b38138" />
+<img width="288" height="512" alt="Accesso" src="https://github.com/user-attachments/assets/3c5c0a78-4fce-4b40-bc49-e2f6ed5686e3" />
